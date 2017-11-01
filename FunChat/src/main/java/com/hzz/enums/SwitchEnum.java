@@ -25,10 +25,12 @@ public enum SwitchEnum {
     CLOSE_MASS_SEND_GROUP("close mess send group","关闭群组群聊模块"),
     START_DOWNLOAD_FILE("start download file","开启文件下载模块"),
     CLOSE_DOWNLOAD_FILE("close download file","关闭文件下载模块"),
-    START_CONTROL_PC("start save control pc","开启控制电脑模块"),
-    CLOSE_CONTROL_PC("close save control pc","关闭控制电脑模块"),
-    START_UPLOAD_FILE("start save upload file","开启文件上传模块"),
-    CLOSE_UPLOAD_FILE("close save upload file","关闭文件上传模块")
+    START_CONTROL_PC("start control pc","开启控制电脑模块"),
+    CLOSE_CONTROL_PC("close control pc","关闭控制电脑模块"),
+    START_UPLOAD_FILE("start upload file","开启文件上传模块"),
+    CLOSE_UPLOAD_FILE("close upload file","关闭文件上传模块"),
+    START_VERIFY_FRIEND("start verify friend","开启验证好友模块"),
+    CLOSE_VERIFY_FRIEND("close verify friend","关闭验证好友模块")
     ;
 
 

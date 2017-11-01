@@ -48,7 +48,7 @@ public interface IMsgHandlerFace {
 	 * @param msg
 	 * @return
 	 */
-	public String viedoMsgHandle(BaseMsg msg);
+	public String videoMsgHandle(BaseMsg msg);
 
 	/**
 	 * 处理名片消息

@@ -17,6 +17,8 @@ public class CommandSwitch {
     private boolean downloadFile=true;//下载文件
     private boolean controlPc=true;//控制电脑
     private boolean uploadFile=true;
+    private boolean verifyFriend=true;
+
 
     public boolean isUploadFile() {
         return uploadFile;
@@ -97,20 +99,11 @@ public class CommandSwitch {
         this.savePic = savePic;
     }
 
-    @Override
-    public String toString() {
-        return "CommandSwitch{" +
-                "autoChat=" + autoChat +
-                ", saveMessage=" + saveMessage +
-                ", saveVoice=" + saveVoice +
-                ", saveMedia=" + saveMedia +
-                ", saveVideo=" + saveVideo +
-                ", savePic=" + savePic +
-                ", massSend=" + massSend +
-                ", massSendGroup=" + massSendGroup +
-                ", downloadFile=" + downloadFile +
-                ", controlPc=" + controlPc +
-                ", uploadFile=" + uploadFile +
-                '}';
+    public boolean isVerifyFriend() {
+        return verifyFriend;
+    }
+
+    public void setVerifyFriend(boolean verifyFriend) {
+        this.verifyFriend = verifyFriend;
     }
 }

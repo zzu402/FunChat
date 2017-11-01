@@ -24,6 +24,8 @@ public interface MessageConstant {
             + "关闭控制电脑模式:close control pc\r\n"
             + "开启文件上传模式:start upload file\r\n"
             + "关闭文件上传模式:close upload file\r\n"
+            +"开启验证好友模式:start verify friend\r\n"
+            +"关闭验证好友模式:close verify friend\r\n"
             +"文件上传命令:upload \r\n"
             +"获取资源命令:f-help \r\n"
             +"文件下载命令:f-资源编号\r\n"
@@ -57,6 +59,8 @@ public interface MessageConstant {
     String DATA_FORMAT="yyyy-MM-dd-HH-mm-ss";
 
     String DOWNLOAD_PROMPT="获取资源请以【f-资源ID】,如获取5号资源，输入f-5:\r\n";
+
+    String VERIFY_FRIEND="你好，来自%s%s 的%s，欢迎添加我为好友！";
 
 
 

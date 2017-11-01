@@ -1,5 +1,7 @@
 package com.hzz.handler;
+import cn.zhouyafeng.itchat4j.api.MessageTools;
 import cn.zhouyafeng.itchat4j.beans.BaseMsg;
+import cn.zhouyafeng.itchat4j.beans.RecommendInfo;
 import cn.zhouyafeng.itchat4j.core.Core;
 import cn.zhouyafeng.itchat4j.face.IMsgHandlerFace;
 import cn.zhouyafeng.itchat4j.utils.MyHttpClient;
@@ -130,7 +132,7 @@ public class MessageHandler implements IMsgHandlerFace {
 	}
 
 	@Override
-	public String viedoMsgHandle(BaseMsg baseMsg) {
+	public String videoMsgHandle(BaseMsg baseMsg) {
 		result=null;
         Date nowDate=new Date();
 		fromUserName = baseMsg.getFromUserName();
@@ -163,6 +165,15 @@ public class MessageHandler implements IMsgHandlerFace {
 
 	@Override
 	public String verifyAddFriendMsgHandle(BaseMsg baseMsg) {
+	    text=null;
+	    if(DataUtil.commandSwitch.isVerifyFriend()){
+            MessageTools.addFriend(baseMsg, true); // 同意好友请求，false为不接受好友请求
+            RecommendInfo recommendInfo = baseMsg.getRecommendInfo();
+            String nickName = recommendInfo.getNickName();
+            String province = recommendInfo.getProvince();
+            String city = recommendInfo.getCity();
+            text = String.format(MessageConstant.VERIFY_FRIEND,province,city,nickName);
+        }
 		return null;
 	}
 

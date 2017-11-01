@@ -82,5 +82,11 @@ public class RadioButtonActionListener implements ActionListener{
         if(command.equals("controlPcoff")){
             DataUtil.commandSwitch.setControlPc(false);
         }
+        if(command.equals("verifyFriendon")){
+            DataUtil.commandSwitch.setVerifyFriend(true);
+        }
+        if(command.equals("verifyFriendoff")){
+            DataUtil.commandSwitch.setVerifyFriend(false);
+        }
     }
 }

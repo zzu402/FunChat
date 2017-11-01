@@ -17,8 +17,6 @@ public class LoginUI extends JFrame{
     private Icon icon;
     private Image image;
 
-
-
     public LoginUI(String path){
         try{
             setTitle("扫描进行登陆");

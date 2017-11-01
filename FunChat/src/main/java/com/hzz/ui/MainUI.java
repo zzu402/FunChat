@@ -1,4 +1,7 @@
 package com.hzz.ui;
+import cn.zhouyafeng.itchat4j.api.WechatTools;
+import cn.zhouyafeng.itchat4j.core.Core;
+import cn.zhouyafeng.itchat4j.utils.enums.StorageLoginInfoEnum;
 import com.hzz.ui.listener.ButtonActionListener;
 import com.hzz.ui.listener.RadioButtonActionListener;
 import com.hzz.util.DataUtil;
@@ -154,7 +157,9 @@ public class MainUI  {
 		addButtonGroup("下载文件","downloadFile",DataUtil.commandSwitch.isDownloadFile());
 		addButtonGroup("上传文件","uploadFile",DataUtil.commandSwitch.isUploadFile());
 		addButtonGroup("控制电脑","controlPc",DataUtil.commandSwitch.isControlPc());
+        addButtonGroup("好友请求处理","verifyFriend",DataUtil.commandSwitch.isVerifyFriend());
 	}
+
 
 	public void setRight(){
 		StringBuilder sb=new StringBuilder();

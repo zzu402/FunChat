@@ -103,6 +103,12 @@ public class MessageServiceImpl implements IMessageService {
 			}else if(text.equalsIgnoreCase(SwitchEnum.CLOSE_UPLOAD_FILE.getCommand())){
 				DataUtil.commandSwitch.setUploadFile(false);
 				logger.info(SwitchEnum.CLOSE_UPLOAD_FILE.getDesc());
+			} else if(text.equalsIgnoreCase(SwitchEnum.START_VERIFY_FRIEND.getCommand())){
+				DataUtil.commandSwitch.setUploadFile(true);
+				logger.info(SwitchEnum.START_VERIFY_FRIEND.getDesc());
+			}else if(text.equalsIgnoreCase(SwitchEnum.CLOSE_VERIFY_FRIEND.getCommand())){
+				DataUtil.commandSwitch.setUploadFile(false);
+				logger.info(SwitchEnum.START_VERIFY_FRIEND.getDesc());
 			}
 		}
 		if (text.equalsIgnoreCase(MessageConstant.CMD_HELP_PREFIX)) {

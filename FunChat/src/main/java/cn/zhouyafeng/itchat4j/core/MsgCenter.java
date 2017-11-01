@@ -140,7 +140,7 @@ public class MsgCenter {
 								String result = msgHandler.voiceMsgHandle(msg);
 								MessageTools.sendMsgById(result, core.getMsgList().get(0).getFromUserName());
 							} else if (msg.getType().equals(MsgTypeEnum.VIEDO.getType())) {
-								String result = msgHandler.viedoMsgHandle(msg);
+								String result = msgHandler.videoMsgHandle(msg);
 								MessageTools.sendMsgById(result, core.getMsgList().get(0).getFromUserName());
 							} else if (msg.getType().equals(MsgTypeEnum.NAMECARD.getType())) {
 								String result = msgHandler.nameCardMsgHandle(msg);

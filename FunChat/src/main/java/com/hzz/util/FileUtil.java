@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.hzz.service.MessageConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +24,7 @@ public class FileUtil {
 		File file = new File(path);
 		if (!file.exists() && !file.isDirectory())
 			file.mkdirs();
-		String date = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss")
+		String date = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
 				.format(new Date());
 		path = path + File.separator + nick
 				+ ".txt";
@@ -74,9 +75,6 @@ public class FileUtil {
 			logger.error(e.getMessage());
 		}
 
-	}
-	public static void main(String[]a){
-		copyFile("G:/weixin/pic\\时间已逝\\玉梅\\2017-10-30-20-49-50.jpg","G:/weixin/file\\2017-10-30-20-49-57.jpg");
 	}
 
 	public static void copyFile(String fromFile, String toFile) {

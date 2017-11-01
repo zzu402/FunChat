@@ -29,6 +29,35 @@ public interface MessageConstant {
             +"文件下载命令:f-资源编号\r\n"
             +"控制命令:exec 命令行";
 
+    String PIC_MESSAGE="图片消息";
+    String VIDEO_MESSAGE="视频消息";
+    String VOICE_MESSAGE="声频消息";
+    String MEDIA_MESSAGE="媒体消息";
+
+    String PIC_SUFFIX=".jpg";
+    String VIDEO_SUFFIX=".mp4";
+    String VOICE_SUFFIX=".mp3";
+    String SEND_FILE="发送文件:";
+    String SAVE_PIC_SUCESS="图片保存成功";
+    String SAVE_VIDEO_SUCESS="视频保存成功";
+    String SAVE_VOICE_SUCESS="声频保存成功";
+    String SAVE_MEDIA_SUCESS="媒体保存成功";
+    String PIC_PATH="发送图片消息，图片路径：";
+    String VOICE_PATH="发送声音消息，声音路径：";
+    String VIDEO_PATH="发送视频消息，视频路径：";
+    String MEDIA_PATH="发送媒体消息，媒体路径：";
+
+    String DOWNLOAD_CMD_PREFIX="f-";
+    String DOWNLOAD_CMD_HELP="f -help";
+    String WAIT_FOR_UPLOAD="等待上传文件...";
+    String UPLOAD_SUCCESS="文件上传成功";
+    String UPLOAD_CMD="upload";
+    String NO_PRIVILEGE="No Privilege";
+    String CMD_HELP_PREFIX="cmd -help";
+    String DATA_FORMAT="yyyy-MM-dd-HH-mm-ss";
+
+    String DOWNLOAD_PROMPT="获取资源请以【f-资源ID】,如获取5号资源，输入f-5:\r\n";
+
 
 
 

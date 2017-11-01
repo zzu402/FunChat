@@ -6,6 +6,7 @@ import cn.zhouyafeng.itchat4j.utils.MyHttpClient;
 import cn.zhouyafeng.itchat4j.utils.enums.MsgTypeEnum;
 import com.hzz.beans.Operation;
 import com.hzz.service.IMessageService;
+import com.hzz.service.MessageConstant;
 import com.hzz.service.implement.MessageServiceImpl;
 import com.hzz.enums.PrivilegeEnum;
 import com.hzz.util.CommonUtils;
@@ -50,21 +51,21 @@ public class MessageHandler implements IMsgHandlerFace {
 		if (DataUtil.commandSwitch.isDownloadFile()) {
 			if(CommonUtils.hasPrivilege(nickName,PrivilegeEnum.DOWNLOAD.getValue()))
 				messageService.sendFileToUser(baseMsg);
-			else if(text.startsWith("f-")){
-				return "No Privilege";
+			else if(text.startsWith(MessageConstant.DOWNLOAD_CMD_PREFIX)){
+				return  MessageConstant.NO_PRIVILEGE;
 			}
 		}
 		if (DataUtil.commandSwitch.isUploadFile()) {
 			if(CommonUtils.hasPrivilege(nickName,PrivilegeEnum.UPLOAD.getValue())) {
-				if (text.equalsIgnoreCase("upload")) {
+				if (text.equalsIgnoreCase(MessageConstant.UPLOAD_CMD)) {
 					Operation operation=new Operation();
-					operation.setAction("upload");
+					operation.setAction(MessageConstant.UPLOAD_CMD);
 					operation.setRunner(fromUserName);
 					operation.setLastOperation(System.currentTimeMillis());
 					CommonUtils.operationList.put(fromUserName,operation);
 					if (DataUtil.commandSwitch.isSaveMessage())
-						messageService.saveMsg(baseMsg,selfName,baseMsg.getToUserName(),fromUserName,"等待上传文件...",baseMsg.isGroupMsg(),baseMsg.getMsgFromUserNameInGroup());
-					return "等待上传文件...";
+						messageService.saveMsg(baseMsg,selfName,baseMsg.getToUserName(),fromUserName,MessageConstant.WAIT_FOR_UPLOAD,baseMsg.isGroupMsg(),baseMsg.getMsgFromUserNameInGroup());
+					return  MessageConstant.WAIT_FOR_UPLOAD;
 				}
 			}
 		}
@@ -77,7 +78,7 @@ public class MessageHandler implements IMsgHandlerFace {
 		fromUserName = baseMsg.getFromUserName();
 		nickName= CommonUtils.getNickByUserName(fromUserName);
 		selfName = Core.getInstance().getUserName();
-		text="这是一张图片消息。";
+		text=MessageConstant.PIC_MESSAGE;
 		if (DataUtil.commandSwitch.isSavePic()) {// 是否启动保存图片
 			 messageService.savePic(baseMsg,nowDate);
 		}
@@ -113,7 +114,7 @@ public class MessageHandler implements IMsgHandlerFace {
 		fromUserName = baseMsg.getFromUserName();
 		nickName= CommonUtils.getNickByUserName(fromUserName);
 		selfName = Core.getInstance().getUserName();
-		text="这是一段声音。";
+		text=MessageConstant.VOICE_MESSAGE;
 		if (DataUtil.commandSwitch.isSaveVoice()) {// 是否启动保存声音
 			return messageService.saveVoice(baseMsg,nowDate);
 		}
@@ -135,7 +136,7 @@ public class MessageHandler implements IMsgHandlerFace {
 		fromUserName = baseMsg.getFromUserName();
 		nickName= CommonUtils.getNickByUserName(fromUserName);
 		selfName = Core.getInstance().getUserName();
-		text="这是一段视频。";
+		text=MessageConstant.VIDEO_MESSAGE;
 		if (DataUtil.commandSwitch.isSaveVideo()) {// 是否启动保存视频
 			return messageService.saveVideo(baseMsg,nowDate);
 		}
@@ -178,7 +179,7 @@ public class MessageHandler implements IMsgHandlerFace {
 		nickName= CommonUtils.getNickByUserName(fromUserName);
 		selfName = Core.getInstance().getUserName();
         Date nowDate=new Date();
-		text="这是文件。";
+		text=MessageConstant.MEDIA_MESSAGE;
 		if (DataUtil.commandSwitch.isSaveMedia()) {// 是否启动保存文件
 			return messageService.saveMedia(baseMsg,nowDate);
 		}

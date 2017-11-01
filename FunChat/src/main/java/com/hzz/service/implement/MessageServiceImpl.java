@@ -105,14 +105,14 @@ public class MessageServiceImpl implements IMessageService {
 				logger.info(SwitchEnum.CLOSE_UPLOAD_FILE.getDesc());
 			}
 		}
-		if (text.equalsIgnoreCase("cmd -help")) {
+		if (text.equalsIgnoreCase(MessageConstant.CMD_HELP_PREFIX)) {
 			MessageTools.sendMsgById(MessageConstant.CMD_HELP, fromUserName);
 		}
 	}
 
 	private String getPicFromPath(BaseMsg baseMsg,Date now){
-		String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss")
-				.format(now) + ".jpg"; // 这里使用收到图片的时间作为文件名
+		String fileName = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
+				.format(now) + MessageConstant.PIC_SUFFIX; // 这里使用收到图片的时间作为文件名
 		String userName = CommonUtils.select(baseMsg.getFromUserName(),
 				baseMsg.getToUserName(), Core.getInstance().getUserName());
 		String path = CommonUtils.diskPath.getPicPath() + File.separator
@@ -124,8 +124,8 @@ public class MessageServiceImpl implements IMessageService {
 		return picPath;
 	}
 	private String getVoiceFromPath(BaseMsg baseMsg,Date now){
-		String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss")
-				.format(now) + ".mp3"; // 这里使用收到图片的时间作为文件名
+		String fileName = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
+				.format(now) + MessageConstant.VOICE_SUFFIX; // 这里使用收到图片的时间作为文件名
 		String userName = CommonUtils.select(baseMsg.getFromUserName(),
 				baseMsg.getToUserName(), Core.getInstance().getUserName());
 		String path = CommonUtils.diskPath.getVoicePath() + File.separator
@@ -137,8 +137,8 @@ public class MessageServiceImpl implements IMessageService {
 		return voicePath;
 	}
 	private String getVideoFromPath(BaseMsg baseMsg,Date now){
-		String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss")
-				.format(now) + ".mp4"; // 这里使用收到图片的时间作为文件名
+		String fileName = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
+				.format(now) + MessageConstant.VIDEO_SUFFIX; // 这里使用收到图片的时间作为文件名
 		String userName = CommonUtils.select(baseMsg.getFromUserName(),
 				baseMsg.getToUserName(), Core.getInstance().getUserName());
 		String path = CommonUtils.diskPath.getVideoPath() + File.separator
@@ -151,7 +151,7 @@ public class MessageServiceImpl implements IMessageService {
 	}
 
 	private String getMediaFromPath(BaseMsg baseMsg,Date now){
-		String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss")
+		String fileName = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
 				.format(now) + baseMsg.getFileName(); //
 		String userName = CommonUtils.select(baseMsg.getFromUserName(),
 				baseMsg.getToUserName(), Core.getInstance().getUserName());
@@ -169,7 +169,7 @@ public class MessageServiceImpl implements IMessageService {
 		Operation op= CommonUtils.operationList.get(fromUserName);
 		if(op==null)
 			return ;
-		if(op.getAction().equalsIgnoreCase("upload")){
+		if(op.getAction().equalsIgnoreCase(MessageConstant.UPLOAD_CMD)){
 			Long time=op.getLastOperation();
 			Long now =System.currentTimeMillis();
 			if(now-time>5*60*1000){
@@ -178,31 +178,31 @@ public class MessageServiceImpl implements IMessageService {
 			}
 			if(type.equals(MsgTypeEnum.PIC.getType())){
 				String fromPath=getPicFromPath(msg,nowDate);
-				String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss")
-						.format(new Date()) + ".jpg"; // 这里使用收到图片的时间作为文件名
+				String fileName = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
+						.format(new Date()) + MessageConstant.PIC_SUFFIX; // 这里使用收到图片的时间作为文件名
 				String toPath=CommonUtils.diskPath.getFilePath()+File.separator+fileName;
 				FileUtil.copyFile(fromPath,toPath);
 			}else if(type.equals(MsgTypeEnum.VIEDO.getType())){
 				String fromPath=getVideoFromPath(msg,nowDate);
-				String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss")
-						.format(new Date()) + ".mp4"; // 这里使用收到图片的时间作为文件名
+				String fileName = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
+						.format(new Date()) + MessageConstant.VIDEO_SUFFIX; // 这里使用收到图片的时间作为文件名
 				String toPath=CommonUtils.diskPath.getFilePath()+File.separator+fileName;
 				FileUtil.copyFile(fromPath,toPath);
 			}else if(type.equals(MsgTypeEnum.VOICE.getType())){
-				String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss")
-						.format(new Date()) + ".mp3"; // 这里使用收到图片的时间作为文件
+				String fileName = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
+						.format(new Date()) + MessageConstant.VOICE_SUFFIX; // 这里使用收到图片的时间作为文件
 				String fromPath=getVoiceFromPath(msg,nowDate);
 				String toPath=CommonUtils.diskPath.getFilePath()+File.separator+fileName;
 				FileUtil.copyFile(fromPath,toPath);
 
 			}else if(type.equals(MsgTypeEnum.MEDIA.getType())){
 				String fromPath=getMediaFromPath(msg,nowDate);
-				String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss")
+				String fileName = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
 						.format(new Date()) + msg.getFileName(); // 这里使用收到图片的时间作为文件名
 				String toPath=CommonUtils.diskPath.getFilePath()+File.separator+fileName;
 				FileUtil.copyFile(fromPath,toPath);
 			}
-			MessageTools.sendMsgById("文件上传成功", msg.getFromUserName());
+			MessageTools.sendMsgById(MessageConstant.UPLOAD_SUCCESS, msg.getFromUserName());
 		}
 	}
 
@@ -211,9 +211,9 @@ public class MessageServiceImpl implements IMessageService {
 	 */
 	public void sendFileToUser(BaseMsg msg) {
 		String content = msg.getContent();
-		if (content.contains("f-help")) {
+		if (content.contains(MessageConstant.DOWNLOAD_CMD_HELP)) {
 			StringBuilder sb = new StringBuilder();
-			sb.append("获取资源请以【f-资源ID】,如获取5号资源，输入f-5:\r\n");
+			sb.append(MessageConstant.DOWNLOAD_PROMPT);
 			List<File> fileList = FileUtil.getFilesFromDir(CommonUtils.diskPath
 					.getFilePath());
 			File file = null;
@@ -224,7 +224,7 @@ public class MessageServiceImpl implements IMessageService {
 			saveMsg(msg,Core.getInstance().getUserName(),msg.getFromUserName(),msg.getToUserName(),sb.toString(),msg.isGroupMsg(),msg.getMsgFromUserNameInGroup());
 			MessageTools.sendMsgById(sb.toString(), msg.getFromUserName());
 		}
-		if (content.startsWith("f-")) {
+		if (content.startsWith(MessageConstant.DOWNLOAD_CMD_PREFIX)) {
 			Pattern p = Pattern.compile("\\d+");
 			Matcher m = p.matcher(content);
 			if (m.find()) {
@@ -233,9 +233,10 @@ public class MessageServiceImpl implements IMessageService {
 						.getFilesFromDir(CommonUtils.diskPath.getFilePath());
 				File f=fileList.get(n);
 				if (DataUtil.commandSwitch.isSaveMessage())
-					saveMsg(msg,Core.getInstance().getUserName(),msg.getFromUserName(),msg.getToUserName(),"发送文件："+f.getName(),msg.isGroupMsg(),msg.getMsgFromUserNameInGroup());
+					saveMsg(msg,Core.getInstance().getUserName(),msg.getFromUserName(),msg.getToUserName(),
+							MessageConstant.SEND_FILE+f.getName(),msg.isGroupMsg(),msg.getMsgFromUserNameInGroup());
 
-				if(f.getName().contains(".jpg")){
+				if(f.getName().contains(MessageConstant.PIC_SUFFIX)){
 					MessageTools.sendPicMsgByUserId(msg.getFromUserName(),f.getAbsolutePath());
 				}else
 					MessageTools.sendFileMsgByUserId(msg.getFromUserName(),
@@ -298,8 +299,8 @@ public class MessageServiceImpl implements IMessageService {
 				.getDownloadFn(baseMsg, MsgTypeEnum.PIC.getType(), picPath);
 		FileUtil.saveMsg(Core.getInstance().getUserName(),
 				baseMsg.getToUserName(), baseMsg.getFromUserName(),
-				"发送图片消息，图片路径：" + picPath, baseMsg.isGroupMsg(),baseMsg.getMsgFromUserNameInGroup());
-		logger.info("图片保存成功");
+				MessageConstant.PIC_PATH + picPath, baseMsg.isGroupMsg(),baseMsg.getMsgFromUserNameInGroup());
+		logger.info(MessageConstant.SAVE_PIC_SUCESS);
 		return null;
 
 	}
@@ -317,8 +318,8 @@ public class MessageServiceImpl implements IMessageService {
 				voicePath);
 		FileUtil.saveMsg(Core.getInstance().getUserName(),
 				baseMsg.getToUserName(), baseMsg.getFromUserName(),
-				"发送声音消息，声音路径：" + voicePath, baseMsg.isGroupMsg(),baseMsg.getMsgFromUserNameInGroup());
-		logger.info("声音保存成功");
+				MessageConstant.VOICE_PATH + voicePath, baseMsg.isGroupMsg(),baseMsg.getMsgFromUserNameInGroup());
+		logger.info(MessageConstant.SAVE_VOICE_SUCESS);
 		return null;
 
 	}
@@ -336,8 +337,8 @@ public class MessageServiceImpl implements IMessageService {
 				videoPath);
 		FileUtil.saveMsg(Core.getInstance().getUserName(),
 				baseMsg.getToUserName(), baseMsg.getFromUserName(),
-				"发送视频消息，视频路径：" + videoPath, baseMsg.isGroupMsg(),baseMsg.getMsgFromUserNameInGroup());
-		logger.info("视频保存成功");
+				MessageConstant.VIDEO_PATH+ videoPath, baseMsg.isGroupMsg(),baseMsg.getMsgFromUserNameInGroup());
+		logger.info(MessageConstant.SAVE_VIDEO_SUCESS);
 		return null;
 
 	}
@@ -355,8 +356,8 @@ public class MessageServiceImpl implements IMessageService {
 				mediaPath);
 		FileUtil.saveMsg(Core.getInstance().getUserName(),
 				baseMsg.getToUserName(), baseMsg.getFromUserName(),
-				"发送文件消息，文件路径：" + mediaPath, baseMsg.isGroupMsg(),baseMsg.getMsgFromUserNameInGroup());
-		logger.info("文件保存成功");
+				MessageConstant.MEDIA_PATH + mediaPath, baseMsg.isGroupMsg(),baseMsg.getMsgFromUserNameInGroup());
+		logger.info(MessageConstant.SAVE_MEDIA_SUCESS);
 		return null;
 
 	}

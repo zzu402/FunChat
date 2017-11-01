@@ -39,14 +39,21 @@ public class PrivilegeUI extends JFrame implements ActionListener,ItemListener{
         label1.setBounds(10,20,50,30);
         friendSelect=new JComboBox();
         for(int i=0;i<WechatTools.getContactNickNameList().size();i++){
-            friendSelect.addItem(WechatTools.getContactNickNameList().get(i));
+            String nickName=WechatTools.getContactRemarkNameList().get(i);
+            if(nickName.equals("")||nickName==null)
+                nickName=WechatTools.getContactNickNameList().get(i);
+
+            friendSelect.addItem(nickName);
         }
         for(int i=0;i<WechatTools.getGroupNickNameList().size();i++){
             friendSelect.addItem(WechatTools.getGroupNickNameList().get(i));
         }
 
-        if(WechatTools.getContactNickNameList().size()>0)
-            nick=WechatTools.getContactNickNameList().get(0);
+        if(WechatTools.getContactNickNameList().size()>0) {
+            nick=WechatTools.getContactRemarkNameList().get(0);
+            if(nick.equals("")||nick==null)
+                nick=WechatTools.getContactNickNameList().get(0);
+        }
         friendSelect.addItemListener(this);
         nickName.setLayout(new GridLayout(15,2));
         nickName.add(label1);

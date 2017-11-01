@@ -57,7 +57,7 @@ public class WechatTools {
 	 * 
 	 * @author https://github.com/yaphone
 	 * @date 2017年5月4日 下午10:56:31
-	 * @param name
+	 * @param
 	 * @return
 	 */
 	public static String getUserNameByNickName(String nickName) {
@@ -82,6 +82,21 @@ public class WechatTools {
 			contactNickNameList.add(o.getString("NickName"));
 		}
 		return contactNickNameList;
+	}
+
+	/**
+	 * 返回好友备注列表
+	 *
+	 * @author https://github.com/yaphone
+	 * @date 2017年5月4日 下午11:37:20
+	 * @return
+	 */
+	public static List<String> getContactRemarkNameList() {
+		List<String> contactRemarkNameList = new ArrayList<String>();
+		for (JSONObject o : core.getContactList()) {
+			contactRemarkNameList.add(o.getString("RemarkName"));
+		}
+		return contactRemarkNameList;
 	}
 
 	/**
@@ -176,7 +191,7 @@ public class WechatTools {
 	 * 根据用户昵称设置备注名称
 	 * 
 	 * @date 2017年5月27日 上午12:21:40
-	 * @param userName
+	 * @param
 	 * @param remName
 	 */
 	public static void remarkNameByNickName(String nickName, String remName) {

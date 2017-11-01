@@ -1,6 +1,7 @@
 package com.hzz.ui;
 import cn.zhouyafeng.itchat4j.api.WechatTools;
 import cn.zhouyafeng.itchat4j.core.Core;
+import cn.zhouyafeng.itchat4j.service.impl.LoginServiceImpl;
 import cn.zhouyafeng.itchat4j.utils.enums.StorageLoginInfoEnum;
 import com.hzz.ui.listener.ButtonActionListener;
 import com.hzz.ui.listener.RadioButtonActionListener;
@@ -8,6 +9,8 @@ import com.hzz.util.DataUtil;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.*;
 
 public class MainUI  {
@@ -176,7 +179,6 @@ public class MainUI  {
 		mainForm.setSize(620, 630);// 设置主窗体大小
         right.setBounds(310,0,300,600);
         right.setBorder(BorderFactory.createTitledBorder("消息记录"));
-
          /* 设置各元素位置布局 */
         label1.setBounds(30, 10, 100, 30);
 		addButtonGroups();
@@ -197,6 +199,14 @@ public class MainUI  {
 		mainForm.setResizable(false);// 设置窗口不可缩放
 		mainForm.setLayout(null);
 		mainForm.setVisible(true);// 显示窗口
+
+        mainForm.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                WechatTools.logout();
+                super.windowClosing(e);
+            }
+        });
 	}
 	private void addLine(JLabel jLabel,JButton jButton,String command){
         jLabel.setBounds(30,y,100,30);

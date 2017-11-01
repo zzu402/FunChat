@@ -38,7 +38,34 @@ public class CommonUtils {
          return msgUserNameInGroup;
     }
 
+    public static String getRemarkNameByUserName(String userName){
+        boolean isFind=false;
+        String self=Core.getInstance().getUserName();
+        if(userName.equals(self))
+            return Core.getInstance().getUserSelf().getString("RemarkName");
+
+        for (JSONObject o : WechatTools.getContactList()) {
+            if (o.getString("UserName").equals(userName)) {
+                isFind=true;
+                return o.getString("RemarkName");
+            }
+        }
+        if(!isFind){ //如果联系人列表没有，就从群名找
+            for (JSONObject o : WechatTools.getGroupList()) {
+                if (o.getString("UserName").equals(userName)) {
+                    isFind=true;
+                    return o.getString("RemarkName");
+                }
+            }
+        }
+        return "";
+    }
+
     public static String getNickByUserName(String userName){
+        //这里增加一个信息，如果用户有备注，则返回备注名称，否则返回昵称
+        String remark=getRemarkNameByUserName(userName);
+        if(remark!=null&&!remark.equals(""))
+            return remark;
         boolean isFind=false;
         String self=Core.getInstance().getUserName();
         if(userName.equals(self))

@@ -1,4 +1,4 @@
-package com.hzz.service;
+package com.hzz.enums;
 
 public enum PrivilegeEnum {
     BLACK("黑名单"),
@@ -7,8 +7,6 @@ public enum PrivilegeEnum {
     UPLOAD("上传文件"),
     DOWNLOAD("下载文件"),
     CONTROL("控制电脑");
-
-
     private String value;
 
      PrivilegeEnum(String value){

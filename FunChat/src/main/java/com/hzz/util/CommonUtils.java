@@ -7,8 +7,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hzz.beans.DiskPath;
 import com.hzz.beans.Operation;
-import com.hzz.service.MessageService;
-import com.hzz.service.PrivilegeEnum;
+import com.hzz.enums.PrivilegeEnum;
 
 import java.io.File;
 import java.util.*;
@@ -142,19 +141,19 @@ public class CommonUtils {
     }
 
     public static void getBlackListFromPrivilege(){
-        Iterator<String> iterator=MessageService.privilegeList.keySet().iterator();
+        Iterator<String> iterator=DataUtil.privilegeMap.keySet().iterator();
 
         while(iterator.hasNext()) {
             String key = iterator.next();
-            String value = MessageService.privilegeList.get(key);
+            String value = DataUtil.privilegeMap.get(key);
             if(value.contains(PrivilegeEnum.BLACK.getValue())){
-                MessageService.blackList.add(key);
+                DataUtil.blackList.add(key);
             }
         }
     }
 
     public static boolean isBlackList(String nickName){
-        String privilege=MessageService.privilegeList.get(nickName);
+        String privilege=DataUtil.privilegeMap.get(nickName);
         if(privilege!=null){
             if(privilege.contains(PrivilegeEnum.BLACK.getValue()));
             return true;
@@ -163,9 +162,9 @@ public class CommonUtils {
     }
 
     public static boolean  hasPrivilege(String nickName,String op){
-        if(MessageService.privilegeList.size()<=0||op==null||nickName.equals(Core.getInstance().getNickName()))
+        if(DataUtil.privilegeMap.size()<=0||op==null||nickName.equals(Core.getInstance().getNickName()))
             return true;
-        String privilege=MessageService.privilegeList.get(nickName);
+        String privilege=DataUtil.privilegeMap.get(nickName);
         if(privilege!=null){
             if(privilege.contains(op)||privilege.contains("~"));
             return true;

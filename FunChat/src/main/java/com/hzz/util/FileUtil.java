@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.hzz.service.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +36,7 @@ public class FileUtil {
 		String msg = date + "\r\n"
 				+ nick + " : " + text
 				+ "\r\n";
-		MessageService.messageList.add(msg);
+		DataUtil.messageList.add(msg);
 		writeByFileReader(path, msg);
 		logger.info("消息:" + msg + " 保存成功");
 	}

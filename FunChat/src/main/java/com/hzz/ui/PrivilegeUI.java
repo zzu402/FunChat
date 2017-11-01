@@ -1,9 +1,9 @@
 package com.hzz.ui;
 
 import cn.zhouyafeng.itchat4j.api.WechatTools;
-import com.hzz.service.MessageService;
-import com.hzz.service.PrivilegeEnum;
+import com.hzz.enums.PrivilegeEnum;
 import com.hzz.util.CommonUtils;
+import com.hzz.util.DataUtil;
 import com.hzz.util.PropertiesUtils;
 
 import javax.swing.*;
@@ -93,11 +93,11 @@ public class PrivilegeUI extends JFrame implements ActionListener,ItemListener{
 
     private void setRight() {
         StringBuilder sb=new StringBuilder();
-        Iterator<String> iterator=MessageService.privilegeList.keySet().iterator();
+        Iterator<String> iterator= DataUtil.privilegeMap.keySet().iterator();
 
         while(iterator.hasNext()){
             String key= iterator.next();
-            String value=MessageService.privilegeList.get(key);
+            String value=DataUtil.privilegeMap.get(key);
             sb.append("用户 :");
             sb.append(key);
             sb.append("\r\n");
@@ -150,7 +150,7 @@ public class PrivilegeUI extends JFrame implements ActionListener,ItemListener{
                 JCheckBox jc=cbs[i];
                 if(jc.isSelected()){
                     if(jc.getText().equals(PrivilegeEnum.BLACK.getValue())){
-                        MessageService.blackList.add(nick);
+                        DataUtil.blackList.add(nick);
                     }
                     sb.append(jc.getText()+"-");
                 }
@@ -162,7 +162,7 @@ public class PrivilegeUI extends JFrame implements ActionListener,ItemListener{
             if(sb.toString().length()>0){
                 PropertiesUtils.writeProperties(CommonUtils.diskPath.getPropertiesPath()
                         + File.separator + "privilege.properties",nick,sb.toString());
-                MessageService.privilegeList.put(nick,sb.toString());
+                DataUtil.privilegeMap.put(nick,sb.toString());
                 setRight();
             }
         }

@@ -1,4 +1,4 @@
-package com.hzz.service;
+package com.hzz.service.implement;
 
 import cn.zhouyafeng.itchat4j.api.MessageTools;
 import cn.zhouyafeng.itchat4j.api.WechatTools;
@@ -8,17 +8,17 @@ import cn.zhouyafeng.itchat4j.utils.MyHttpClient;
 import cn.zhouyafeng.itchat4j.utils.enums.MsgTypeEnum;
 import cn.zhouyafeng.itchat4j.utils.tools.DownloadTools;
 import com.alibaba.fastjson.JSONObject;
-import com.hzz.beans.CommandSwitch;
 import com.hzz.beans.Operation;
+import com.hzz.enums.SwitchEnum;
+import com.hzz.service.IMessageService;
+import com.hzz.service.MessageConstant;
 import com.hzz.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 /**
@@ -26,30 +26,8 @@ import java.util.regex.Pattern;
  * @Description:
  * @Date :2017/10/28
  */
-public class MessageService {
-	private Logger logger = LoggerFactory.getLogger(MessageService.class);
-	private static CommandSwitch commandSwitch = new CommandSwitch();
-	public static Map<String, String> templet = null;
-	public static Map<String, String> privilegeList = null;
-	public static List<String> blackList=new ArrayList<>();
-	public static List<String> messageList=new ArrayList<>();
-
-	public static void main(String []a){
-		MessageService service=new MessageService();
-		System.out.print(service.getTempletValue("你好"));
-	}
-
-	static {
-		templet=PropertiesUtils.getPropertiesValues(CommonUtils.diskPath.getPropertiesPath()
-				+ File.separator + "templet.properties");
-		privilegeList=PropertiesUtils.getPropertiesValues(CommonUtils.diskPath.getPropertiesPath()
-				+ File.separator + "privilege.properties");
-		CommonUtils.getBlackListFromPrivilege();
-	}
-	public static CommandSwitch getCommandSwitch() {
-		return commandSwitch;
-	}
-
+public class MessageServiceImpl implements IMessageService {
+	private Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
 	/**
 	 * 设置命令开关
 	 * 
@@ -59,72 +37,72 @@ public class MessageService {
 	 */
 	public void setCommand(String text, String fromUserName, String selfName) {
 		if (fromUserName.equals(selfName)) {
-			if (text.equalsIgnoreCase("start auto chat")) {
-				commandSwitch.setAutoChat(true);
-				logger.info("开启自动聊天模式");
-			} else if (text.equalsIgnoreCase("close auto chat")) {
-				commandSwitch.setAutoChat(false);
-				logger.info("关闭自动聊天模式");
-			} else if (text.equalsIgnoreCase("start save message")) {
-				commandSwitch.setSaveMessage(true);
-				logger.info("开启聊天备份模式");
-			} else if (text.equalsIgnoreCase("close save message")) {
-				commandSwitch.setSaveMessage(false);
-				logger.info("关闭聊天备份模式");
-			} else if (text.equalsIgnoreCase("start save pic")) {
-				commandSwitch.setSavePic(true);
-				logger.info("开启图片保存模式");
-			} else if (text.equalsIgnoreCase("close save pic")) {
-				commandSwitch.setSavePic(false);
-				logger.info("关闭图片保存模式");
-			} else if (text.equalsIgnoreCase("start save video")) {
-				commandSwitch.setSaveVideo(true);
-				logger.info("开启视频保存模式");
-			} else if (text.equalsIgnoreCase("close save video")) {
-				commandSwitch.setSaveVideo(false);
-				logger.info("关闭视频保存模式");
-			} else if (text.equalsIgnoreCase("start save voice")) {
-				commandSwitch.setSaveVoice(true);
-				logger.info("开启音频保存模式");
-			} else if (text.equalsIgnoreCase("close save voice")) {
-				commandSwitch.setSaveVoice(false);
-				logger.info("关闭音频保存模式");
-			} else if (text.equalsIgnoreCase("start save media")) {
-				commandSwitch.setSaveMedia(true);
-				logger.info("开启数据保存模式");
-			} else if (text.equalsIgnoreCase("close save media")) {
-				commandSwitch.setSaveMedia(false);
-				logger.info("关闭数据保存模式");
-			} else if (text.equalsIgnoreCase("start mass send")) {
-				commandSwitch.setMassSend(true);
-				logger.info("开启群发模式");
-			} else if (text.equalsIgnoreCase("close mass send")) {
-				commandSwitch.setMassSend(false);
-				logger.info("关闭群发模式");
-			} else if (text.equalsIgnoreCase("start mass send group")) {
-				commandSwitch.setMassSendGroup(true);
-				logger.info("开启群发组模式");
-			} else if (text.equalsIgnoreCase("close mass send group")) {
-				commandSwitch.setMassSendGroup(false);
-				logger.info("关闭群发组模式");
-			} else if (text.equalsIgnoreCase("start download file")) {
-				commandSwitch.setDownloadFile(true);
-				logger.info("开启文件下载模式");
-			} else if (text.equalsIgnoreCase("close download file")) {
-				commandSwitch.setDownloadFile(false);
-				logger.info("关闭文件下载模式");
-			}else if (text.equalsIgnoreCase("start control pc")) {
-				commandSwitch.setControlPc(true);
-				logger.info("开启控制电脑模式");
-			} else if (text.equalsIgnoreCase("close control pc")) {
-				commandSwitch.setControlPc(false);
-				logger.info("关闭控制电脑模式");
-			} else if(text.equalsIgnoreCase("start upload file")){
-				commandSwitch.setUploadFile(true);
-				logger.info("开启文件上传模式");
-			}else if(text.equalsIgnoreCase("close upload file")){
-				commandSwitch.setUploadFile(false);
-				logger.info("关闭文件上传模式");
+			if (text.equalsIgnoreCase(SwitchEnum.START_AUTO_CHAT.getCommand())) {
+				DataUtil.commandSwitch.setAutoChat(true);
+				logger.info(SwitchEnum.START_AUTO_CHAT.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.CLOSE_AUTO_CHAT.getCommand())) {
+				DataUtil.commandSwitch.setAutoChat(false);
+				logger.info(SwitchEnum.CLOSE_AUTO_CHAT.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.START_SAVE_MSG.getCommand())) {
+				DataUtil.commandSwitch.setSaveMessage(true);
+				logger.info(SwitchEnum.START_SAVE_MSG.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.CLOSE_SAVE_MSG.getCommand())) {
+				DataUtil.commandSwitch.setSaveMessage(false);
+				logger.info(SwitchEnum.CLOSE_SAVE_MSG.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.START_SAVE_PIC.getCommand())) {
+				DataUtil.commandSwitch.setSavePic(true);
+				logger.info(SwitchEnum.START_SAVE_PIC.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.CLOSE_SAVE_PIC.getCommand())) {
+				DataUtil.commandSwitch.setSavePic(false);
+				logger.info(SwitchEnum.CLOSE_SAVE_PIC.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.START_SAVE_VIDEO.getCommand())) {
+				DataUtil.commandSwitch.setSaveVideo(true);
+				logger.info(SwitchEnum.START_SAVE_VIDEO.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.CLOSE_SAVE_VIDEO.getCommand())) {
+				DataUtil.commandSwitch.setSaveVideo(false);
+				logger.info(SwitchEnum.CLOSE_SAVE_VIDEO.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.START_SAVE_VOICE.getCommand())) {
+				DataUtil.commandSwitch.setSaveVoice(true);
+				logger.info(SwitchEnum.START_SAVE_VOICE.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.CLOSE_SAVE_VOICE.getCommand())) {
+				DataUtil.commandSwitch.setSaveVoice(false);
+				logger.info(SwitchEnum.CLOSE_SAVE_VOICE.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.START_SAVE_MEDIA.getCommand())) {
+				DataUtil.commandSwitch.setSaveMedia(true);
+				logger.info(SwitchEnum.START_SAVE_MEDIA.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.CLOSE_SAVE_MEDIA.getCommand())) {
+				DataUtil.commandSwitch.setSaveMedia(false);
+				logger.info(SwitchEnum.CLOSE_SAVE_MEDIA.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.START_MASS_SEND.getCommand())) {
+				DataUtil.commandSwitch.setMassSend(true);
+				logger.info(SwitchEnum.START_MASS_SEND.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.CLOSE_MASS_SEND.getCommand())) {
+				DataUtil.commandSwitch.setMassSend(false);
+				logger.info(SwitchEnum.START_MASS_SEND.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.START_MASS_SEND_GROUP.getCommand())) {
+				DataUtil.commandSwitch.setMassSendGroup(true);
+				logger.info(SwitchEnum.START_MASS_SEND_GROUP.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.CLOSE_MASS_SEND_GROUP.getCommand())) {
+				DataUtil.commandSwitch.setMassSendGroup(false);
+				logger.info(SwitchEnum.CLOSE_MASS_SEND_GROUP.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.START_DOWNLOAD_FILE.getCommand())) {
+				DataUtil.commandSwitch.setDownloadFile(true);
+				logger.info(SwitchEnum.START_DOWNLOAD_FILE.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.CLOSE_DOWNLOAD_FILE.getCommand())) {
+				DataUtil.commandSwitch.setDownloadFile(false);
+				logger.info(SwitchEnum.CLOSE_DOWNLOAD_FILE.getDesc());
+			}else if (text.equalsIgnoreCase(SwitchEnum.START_CONTROL_PC.getCommand())) {
+				DataUtil.commandSwitch.setControlPc(true);
+				logger.info(SwitchEnum.START_CONTROL_PC.getDesc());
+			} else if (text.equalsIgnoreCase(SwitchEnum.CLOSE_CONTROL_PC.getCommand())) {
+				DataUtil.commandSwitch.setControlPc(false);
+				logger.info(SwitchEnum.CLOSE_CONTROL_PC.getDesc());
+			} else if(text.equalsIgnoreCase(SwitchEnum.START_UPLOAD_FILE.getCommand())){
+				DataUtil.commandSwitch.setUploadFile(true);
+				logger.info(SwitchEnum.START_UPLOAD_FILE.getDesc());
+			}else if(text.equalsIgnoreCase(SwitchEnum.CLOSE_UPLOAD_FILE.getCommand())){
+				DataUtil.commandSwitch.setUploadFile(false);
+				logger.info(SwitchEnum.CLOSE_UPLOAD_FILE.getDesc());
 			}
 		}
 		if (text.equalsIgnoreCase("cmd -help")) {
@@ -254,7 +232,7 @@ public class MessageService {
 				List<File> fileList = FileUtil
 						.getFilesFromDir(CommonUtils.diskPath.getFilePath());
 				File f=fileList.get(n);
-				if (getCommandSwitch().isSaveMessage())
+				if (DataUtil.commandSwitch.isSaveMessage())
 					saveMsg(msg,Core.getInstance().getUserName(),msg.getFromUserName(),msg.getToUserName(),"发送文件："+f.getName(),msg.isGroupMsg(),msg.getMsgFromUserNameInGroup());
 
 				if(f.getName().contains(".jpg")){
@@ -279,7 +257,7 @@ public class MessageService {
 				continue;
 			MessageTools.sendMsgById(msg.getContent(), o.getString("UserName"));
 		}
-		if (!commandSwitch.isMassSendGroup())
+		if (!DataUtil.commandSwitch.isMassSendGroup())
 			return;
 		for (JSONObject o : WechatTools.getGroupList()) {
 			if(CommonUtils.isBlackList(o.getString("UserName")))
@@ -289,14 +267,14 @@ public class MessageService {
 	}
 
 	public static void massSend(String content){
-		if (!commandSwitch.isMassSend())
+		if (!DataUtil.commandSwitch.isMassSend())
 			return;
 		for (JSONObject o : WechatTools.getContactList()) {
 			if(CommonUtils.isBlackList(o.getString("NickName")))
 				continue;
 			MessageTools.sendMsgById(content, o.getString("UserName"));
 		}
-		if (!commandSwitch.isMassSendGroup())
+		if (!DataUtil.commandSwitch.isMassSendGroup())
 			return;
 		for (JSONObject o : WechatTools.getGroupList()) {
 			if(CommonUtils.isBlackList(o.getString("NickName")))
@@ -305,14 +283,7 @@ public class MessageService {
 		}
 	}
 
-	public String getTempletValue(String text) {
-		for (String key : templet.keySet()) {
-			if (StringUtils.SimilarDegree(key, text) >= 0.65) {
-				return templet.get(key);
-			}
-		}
-		return null;
-	}
+
 
 	/**
 	 * 保存图片

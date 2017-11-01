@@ -1,7 +1,7 @@
 package com.hzz.ui;
 
-import cn.zhouyafeng.itchat4j.beans.BaseMsg;
-import com.hzz.service.MessageService;
+import com.hzz.service.implement.MessageServiceImpl;
+import com.hzz.util.DataUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 
 /**
  * @Author: huangzz
@@ -29,12 +28,12 @@ public class SendUI extends JFrame implements ActionListener{
     private void submit(){
         String content=textArea.getText();
         if(content.length()>0)
-            MessageService.massSend(content);
+            MessageServiceImpl.massSend(content);
     };
     public void setRight(){
         StringBuilder sb=new StringBuilder();
-        for(int i = 0; i< MessageService.blackList.size(); i++){
-            sb.append(MessageService.blackList.get(i)+"\r\n");
+        for(int i = 0; i< DataUtil.blackList.size(); i++){
+            sb.append(DataUtil.blackList.get(i)+"\r\n");
 
         }
         blackArea.setText(sb.toString());

@@ -1,7 +1,7 @@
 package com.hzz.ui;
 
-import com.hzz.service.MessageService;
 import com.hzz.util.CommonUtils;
+import com.hzz.util.DataUtil;
 import com.hzz.util.PropertiesUtils;
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,6 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * @Author: huangzz
@@ -83,7 +82,7 @@ public class TempletUI extends JFrame implements ActionListener{
             String value=valueLine.get(i).getText();
             if(key==null||key.equals("")||value==null||value.equals(""))
                 continue;
-            MessageService.templet.put(key,value);
+            DataUtil.templetMap.put(key,value);
             PropertiesUtils.writeProperties(CommonUtils.diskPath.getPropertiesPath()+ File.separator+"templet.properties",key,value);
 //            PropertiesUtils.writeProperties("D:\\templet.properties",key,value);
         }
@@ -93,11 +92,11 @@ public class TempletUI extends JFrame implements ActionListener{
 
     private void setRight(){
         StringBuilder sb=new StringBuilder();
-        Iterator<String> iterator=MessageService.templet.keySet().iterator();
+        Iterator<String> iterator=DataUtil.templetMap.keySet().iterator();
 
         while(iterator.hasNext()){
             String key= iterator.next();
-            String value=MessageService.templet.get(key);
+            String value=DataUtil.templetMap.get(key);
             sb.append("消息 :");
             sb.append(key);
             sb.append("\r\n");

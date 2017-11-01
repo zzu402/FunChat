@@ -1,16 +1,10 @@
 package com.hzz.ui;
-import cn.zhouyafeng.itchat4j.core.Core;
-import cn.zhouyafeng.itchat4j.utils.SleepUtils;
-import com.hzz.service.MessageService;
 import com.hzz.ui.listener.ButtonActionListener;
 import com.hzz.ui.listener.RadioButtonActionListener;
-import javafx.scene.control.RadioButton;
-import sun.plugin.dom.core.CoreConstants;
+import com.hzz.util.DataUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.*;
 
 public class MainUI  {
@@ -18,7 +12,7 @@ public class MainUI  {
 	public static void main(String []args){
 		MainUI UI=new MainUI();
 //		SleepUtils.sleep(5000);
-//		MessageService.getCommandSwitch().setAutoChat(true);
+//		MessageServiceImpl.getCommandSwitch().setAutoChat(true);
 //		UI.updateButtonGroup();
 	}
     private JPanel right=new JPanel();
@@ -76,70 +70,70 @@ public class MainUI  {
 					while (enumeration.hasMoreElements()) {
 						JRadioButton jRadioButton = (JRadioButton) enumeration.nextElement();
 						String command=jRadioButton.getActionCommand();
-						if(command.equals("autoChaton")&&MessageService.getCommandSwitch().isAutoChat()){
+						if(command.equals("autoChaton")&&DataUtil.commandSwitch.isAutoChat()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("autoChatoff")&&!MessageService.getCommandSwitch().isAutoChat()){
+						if(command.equals("autoChatoff")&&!DataUtil.commandSwitch.isAutoChat()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("saveMsgon")&&MessageService.getCommandSwitch().isSaveMessage()){
+						if(command.equals("saveMsgon")&&DataUtil.commandSwitch.isSaveMessage()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("saveMsgoff")&&!MessageService.getCommandSwitch().isSaveMessage()){
+						if(command.equals("saveMsgoff")&&!DataUtil.commandSwitch.isSaveMessage()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("savePicon")&&MessageService.getCommandSwitch().isSavePic()){
+						if(command.equals("savePicon")&&DataUtil.commandSwitch.isSavePic()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("savePicoff")&&!MessageService.getCommandSwitch().isSavePic()){
+						if(command.equals("savePicoff")&&!DataUtil.commandSwitch.isSavePic()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("saveVideoon")&&MessageService.getCommandSwitch().isSaveVideo()){
+						if(command.equals("saveVideoon")&&DataUtil.commandSwitch.isSaveVideo()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("saveVideooff")&&!MessageService.getCommandSwitch().isSaveVideo()){
+						if(command.equals("saveVideooff")&&!DataUtil.commandSwitch.isSaveVideo()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("saveVoiceon")&&MessageService.getCommandSwitch().isSaveVoice()){
+						if(command.equals("saveVoiceon")&&DataUtil.commandSwitch.isSaveVoice()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("saveVoiceoff")&&!MessageService.getCommandSwitch().isSaveVoice()){
+						if(command.equals("saveVoiceoff")&&!DataUtil.commandSwitch.isSaveVoice()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("saveMediaon")&&MessageService.getCommandSwitch().isSaveMedia()){
+						if(command.equals("saveMediaon")&&DataUtil.commandSwitch.isSaveMedia()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("saveMediaoff")&&!MessageService.getCommandSwitch().isSaveMedia()){
+						if(command.equals("saveMediaoff")&&!DataUtil.commandSwitch.isSaveMedia()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("sendon")&&MessageService.getCommandSwitch().isMassSend()){
+						if(command.equals("sendon")&&DataUtil.commandSwitch.isMassSend()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("sendoff")&&!MessageService.getCommandSwitch().isMassSend()){
+						if(command.equals("sendoff")&&!DataUtil.commandSwitch.isMassSend()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("sendGroupon")&&MessageService.getCommandSwitch().isMassSendGroup()){
+						if(command.equals("sendGroupon")&&DataUtil.commandSwitch.isMassSendGroup()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("sendGroupoff")&&!MessageService.getCommandSwitch().isMassSendGroup()){
+						if(command.equals("sendGroupoff")&&!DataUtil.commandSwitch.isMassSendGroup()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("downloadFileon")&&MessageService.getCommandSwitch().isDownloadFile()){
+						if(command.equals("downloadFileon")&&DataUtil.commandSwitch.isDownloadFile()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("downloadFileoff")&&!MessageService.getCommandSwitch().isDownloadFile()){
+						if(command.equals("downloadFileoff")&&!DataUtil.commandSwitch.isDownloadFile()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("uploadFileon")&&MessageService.getCommandSwitch().isUploadFile()){
+						if(command.equals("uploadFileon")&&DataUtil.commandSwitch.isUploadFile()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("uploadFileoff")&&!MessageService.getCommandSwitch().isUploadFile()){
+						if(command.equals("uploadFileoff")&&!DataUtil.commandSwitch.isUploadFile()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("controlPcon")&&MessageService.getCommandSwitch().isControlPc()){
+						if(command.equals("controlPcon")&&DataUtil.commandSwitch.isControlPc()){
 							jRadioButton.setSelected(true);
 						}
-						if(command.equals("controlPcoff")&&!MessageService.getCommandSwitch().isControlPc()){
+						if(command.equals("controlPcoff")&&!DataUtil.commandSwitch.isControlPc()){
 							jRadioButton.setSelected(true);
 						}
 						jRadioButton.paintImmediately(jRadioButton.getBounds());
@@ -149,23 +143,23 @@ public class MainUI  {
 		}).start();;
 	}
 	private void addButtonGroups(){
-		addButtonGroup("自动聊天","autoChat",MessageService.getCommandSwitch().isAutoChat());
-		addButtonGroup("消息备份","saveMsg",MessageService.getCommandSwitch().isSaveMessage());
-		addButtonGroup("图片保存","savePic",MessageService.getCommandSwitch().isSavePic());
-		addButtonGroup("视频保存","saveVideo",MessageService.getCommandSwitch().isSaveVideo());
-		addButtonGroup("音频保存","saveVoice",MessageService.getCommandSwitch().isSaveVoice());
-		addButtonGroup("文件保存","saveMedia",MessageService.getCommandSwitch().isSaveMedia());
-		addButtonGroup("通讯录群发","send",MessageService.getCommandSwitch().isMassSend());
-		addButtonGroup("群组群发","sendGroup",MessageService.getCommandSwitch().isMassSendGroup());
-		addButtonGroup("下载文件","downloadFile",MessageService.getCommandSwitch().isDownloadFile());
-		addButtonGroup("上传文件","uploadFile",MessageService.getCommandSwitch().isUploadFile());
-		addButtonGroup("控制电脑","controlPc",MessageService.getCommandSwitch().isControlPc());
+		addButtonGroup("自动聊天","autoChat", DataUtil.commandSwitch.isAutoChat());
+		addButtonGroup("消息备份","saveMsg",DataUtil.commandSwitch.isSaveMessage());
+		addButtonGroup("图片保存","savePic",DataUtil.commandSwitch.isSavePic());
+		addButtonGroup("视频保存","saveVideo",DataUtil.commandSwitch.isSaveVideo());
+		addButtonGroup("音频保存","saveVoice",DataUtil.commandSwitch.isSaveVoice());
+		addButtonGroup("文件保存","saveMedia",DataUtil.commandSwitch.isSaveMedia());
+		addButtonGroup("通讯录群发","send",DataUtil.commandSwitch.isMassSend());
+		addButtonGroup("群组群发","sendGroup",DataUtil.commandSwitch.isMassSendGroup());
+		addButtonGroup("下载文件","downloadFile",DataUtil.commandSwitch.isDownloadFile());
+		addButtonGroup("上传文件","uploadFile",DataUtil.commandSwitch.isUploadFile());
+		addButtonGroup("控制电脑","controlPc",DataUtil.commandSwitch.isControlPc());
 	}
 
 	public void setRight(){
 		StringBuilder sb=new StringBuilder();
-        for(int i=0;i<MessageService.messageList.size();i++){
-			sb.append(MessageService.messageList.get(i));
+        for(int i=0;i<DataUtil.messageList.size();i++){
+			sb.append(DataUtil.messageList.get(i));
         }
 		messageArea.setText(sb.toString());
         right.repaint();

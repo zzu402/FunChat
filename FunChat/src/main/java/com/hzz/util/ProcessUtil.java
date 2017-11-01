@@ -7,12 +7,6 @@ import java.util.Map;
 import cn.zhouyafeng.itchat4j.beans.BaseMsg;
 
 public class ProcessUtil {
-//    public static void main(String[] args){
-//        BaseMsg msg=new BaseMsg();
-//        msg.setText("exec D:\\1.bat");
-//        System.out.print(control(msg));
-//    }
-
 	/**
 	 * 执行
 	 * @return

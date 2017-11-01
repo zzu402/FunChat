@@ -1,6 +1,6 @@
 package com.hzz.ui.listener;
 
-import com.hzz.service.MessageService;
+import com.hzz.util.DataUtil;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,70 +17,70 @@ public class RadioButtonActionListener implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         String command=e.getActionCommand();
         if(command.equals("autoChaton")){
-            MessageService.getCommandSwitch().setAutoChat(true);
+            DataUtil.commandSwitch.setAutoChat(true);
         }
         if(command.equals("autoChatoff")){
-            MessageService.getCommandSwitch().setAutoChat(false);
+            DataUtil.commandSwitch.setAutoChat(false);
         }
         if(command.equals("saveMsgon")){
-            MessageService.getCommandSwitch().setSaveMessage(true);
+            DataUtil.commandSwitch.setSaveMessage(true);
         }
         if(command.equals("saveMsgoff")){
-            MessageService.getCommandSwitch().setSaveMessage(false);
+            DataUtil.commandSwitch.setSaveMessage(false);
         }
         if(command.equals("savePicon")){
-            MessageService.getCommandSwitch().setSavePic(true);
+            DataUtil.commandSwitch.setSavePic(true);
         }
         if(command.equals("savePicoff")){
-            MessageService.getCommandSwitch().setSavePic(false);
+            DataUtil.commandSwitch.setSavePic(false);
         }
         if(command.equals("saveVideoon")){
-            MessageService.getCommandSwitch().setSaveVideo(true);
+            DataUtil.commandSwitch.setSaveVideo(true);
         }
         if(command.equals("saveVideooff")){
-            MessageService.getCommandSwitch().setSaveVideo(false);
+            DataUtil.commandSwitch.setSaveVideo(false);
         }
         if(command.equals("saveVoiceon")){
-            MessageService.getCommandSwitch().setSaveVoice(true);
+            DataUtil.commandSwitch.setSaveVoice(true);
         }
         if(command.equals("saveVoiceoff")){
-            MessageService.getCommandSwitch().setSaveVoice(false);
+            DataUtil.commandSwitch.setSaveVoice(false);
         }
         if(command.equals("saveMediaon")){
-            MessageService.getCommandSwitch().setSaveMedia(true);
+            DataUtil.commandSwitch.setSaveMedia(true);
         }
         if(command.equals("saveMediaoff")){
-            MessageService.getCommandSwitch().setSaveMedia(false);
+            DataUtil.commandSwitch.setSaveMedia(false);
         }
         if(command.equals("sendon")){
-            MessageService.getCommandSwitch().setMassSend(true);
+            DataUtil.commandSwitch.setMassSend(true);
         }
         if(command.equals("sendoff")){
-            MessageService.getCommandSwitch().setMassSend(false);
+            DataUtil.commandSwitch.setMassSend(false);
         }
         if(command.equals("sendGroupon")){
-            MessageService.getCommandSwitch().setMassSendGroup(true);
+            DataUtil.commandSwitch.setMassSendGroup(true);
         }
         if(command.equals("sendGroupoff")){
-            MessageService.getCommandSwitch().setMassSendGroup(false);
+            DataUtil.commandSwitch.setMassSendGroup(false);
         }
         if(command.equals("downloadFileon")){
-            MessageService.getCommandSwitch().setDownloadFile(true);
+            DataUtil.commandSwitch.setDownloadFile(true);
         }
         if(command.equals("downloadFileoff")){
-            MessageService.getCommandSwitch().setDownloadFile(false);
+            DataUtil.commandSwitch.setDownloadFile(false);
         }
         if(command.equals("uploadFileon")){
-            MessageService.getCommandSwitch().setUploadFile(true);
+            DataUtil.commandSwitch.setUploadFile(true);
         }
         if(command.equals("uploadFileoff")){
-            MessageService.getCommandSwitch().setUploadFile(false);
+            DataUtil.commandSwitch.setUploadFile(false);
         }
         if(command.equals("controlPcon")){
-            MessageService.getCommandSwitch().setControlPc(true);
+            DataUtil.commandSwitch.setControlPc(true);
         }
         if(command.equals("controlPcoff")){
-            MessageService.getCommandSwitch().setControlPc(false);
+            DataUtil.commandSwitch.setControlPc(false);
         }
     }
 }

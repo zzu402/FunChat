@@ -254,14 +254,14 @@ public class MessageServiceImpl implements IMessageService {
 		if (!msg.getFromUserName().equals(msg.getToUserName()))
 			return;
 		for (JSONObject o : WechatTools.getContactList()) {
-			if(CommonUtils.isBlackList(o.getString("UserName")))
+			if(CommonUtils.isBlackList(o.getString("NickName")))
 				continue;
 			MessageTools.sendMsgById(msg.getContent(), o.getString("UserName"));
 		}
 		if (!DataUtil.commandSwitch.isMassSendGroup())
 			return;
 		for (JSONObject o : WechatTools.getGroupList()) {
-			if(CommonUtils.isBlackList(o.getString("UserName")))
+			if(CommonUtils.isBlackList(o.getString("NickName")))
 				continue;
 			MessageTools.sendMsgById(msg.getContent(), o.getString("UserName"));
 		}

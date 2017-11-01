@@ -93,7 +93,7 @@ public class MessageHandler implements IMsgHandlerFace {
 		return result;
 	}
 	private String autoChat(String result,String text,BaseMsg baseMsg,String selfName,String fromUserName,String nickName){
-		if (DataUtil.commandSwitch.isAutoChat()&&CommonUtils.hasPrivilege(nickName,PrivilegeEnum.AUTOCHAT.getValue())) {// 是否启动自动聊天
+		if (DataUtil.commandSwitch.isAutoChat()&&(!CommonUtils.isBlackList(nickName)||CommonUtils.hasPrivilege(nickName,PrivilegeEnum.AUTOCHAT.getValue()))) {// 是否启动自动聊天
 			result = DataUtil.getTempletValue(text);// 从消息模板里面获取
 			if (result != null) {
 				if (DataUtil.commandSwitch.isSaveMessage())

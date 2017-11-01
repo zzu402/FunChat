@@ -283,9 +283,6 @@ public class MessageServiceImpl implements IMessageService {
 			MessageTools.sendMsgById(content, o.getString("UserName"));
 		}
 	}
-
-
-
 	/**
 	 * 保存图片
 	 * 

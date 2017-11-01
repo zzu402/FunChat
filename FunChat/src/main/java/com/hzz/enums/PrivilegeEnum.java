@@ -8,9 +8,7 @@ public enum PrivilegeEnum {
     DOWNLOAD("下载文件"),
     CONTROL("控制电脑");
     private String value;
-
-     PrivilegeEnum(String value){
-
+    PrivilegeEnum(String value){
         this.value=value;
     }
     public String getValue(){

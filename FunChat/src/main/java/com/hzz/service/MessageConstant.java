@@ -27,7 +27,7 @@ public interface MessageConstant {
             +"文件上传命令:upload \r\n"
             +"获取资源命令:f-help \r\n"
             +"文件下载命令:f-资源编号\r\n"
-            +"控制命令:exec 命令行";
+            +"控制命令:exec 命令行\r\n";
 
     String PIC_MESSAGE="图片消息";
     String VIDEO_MESSAGE="视频消息";

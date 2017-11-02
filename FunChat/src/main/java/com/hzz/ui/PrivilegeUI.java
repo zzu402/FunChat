@@ -137,10 +137,9 @@ public class PrivilegeUI extends JFrame implements ActionListener,ItemListener{
             PrivilegeEnum privilegeEnum=privilegeEnums[i];
             if(values!=null&&values.contains(privilegeEnum.getValue())){
                 cbs[i].setSelected(true);
-            }else if(values!=null&&!values.contains(privilegeEnum.getValue()))
+            } else
                 cbs[i].setSelected(false);
         }
-
         privileges.repaint();
     }
 

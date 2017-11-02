@@ -1,10 +1,13 @@
 package com.hzz.ui;
 
+import cn.zhouyafeng.itchat4j.api.WechatTools;
 import cn.zhouyafeng.itchat4j.core.Core;
 import cn.zhouyafeng.itchat4j.utils.SleepUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * @Author: huangzz
@@ -30,6 +33,14 @@ public class LoginUI extends JFrame{
             setResizable(false);// 设置窗口不可缩放
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             setVisible(true);
+            addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    System.exit(0);
+                    super.windowClosing(e);
+                }
+            });
+
         }catch(Exception e){
             System.out.println("初始化失败"+e.getMessage());
         }

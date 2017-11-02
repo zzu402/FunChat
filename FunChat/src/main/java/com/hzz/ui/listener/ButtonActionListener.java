@@ -1,9 +1,6 @@
 package com.hzz.ui.listener;
 
-import com.hzz.ui.CommandUI;
-import com.hzz.ui.PrivilegeUI;
-import com.hzz.ui.SendUI;
-import com.hzz.ui.TempletUI;
+import com.hzz.ui.*;
 import org.omg.CORBA.MARSHAL;
 
 import javax.swing.*;
@@ -36,6 +33,9 @@ public class ButtonActionListener implements ActionListener{
         }else if(command.equals("privilege")){
             main.setVisible(false);
             new PrivilegeUI(main);
+        }else if(command.equals("history")){
+            main.setVisible(false);
+            new HistoryUI(main);
         }
 
     }

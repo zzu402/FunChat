@@ -13,6 +13,26 @@ import org.slf4j.LoggerFactory;
 public class FileUtil {
 	private static Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
+	public static List<String> readTextFile(String path){
+		List<String>textList=new ArrayList<>();
+		File f=new File(path);
+		if(!f.exists())
+			return null;
+		try {
+			BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+			String text=br.readLine();
+			while(text!=null){
+				textList.add(text);
+				text=br.readLine();
+			}
+		} catch (Exception e) {
+			System.out.println("文件读取失败");
+			return null;
+		}
+
+		return textList;
+	}
+
 	public static void saveMsg(String selfName, String toUserName,
 			String fromUserName, String text, boolean isGroupMsg,String msgUserNameInGroup) {
 		

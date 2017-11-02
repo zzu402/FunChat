@@ -29,6 +29,7 @@ public interface MessageConstant {
             +"文件上传命令:upload \r\n"
             +"获取资源命令:f-help \r\n"
             +"文件下载命令:f-资源编号\r\n"
+            +"文件邮件发送命令:e-资源编号 -u邮箱地址\r\n"
             +"控制命令:exec 命令行\r\n";
 
     String PIC_MESSAGE="图片消息";
@@ -57,7 +58,7 @@ public interface MessageConstant {
     String EMAIL_USER_COUNT="-u";
 
     String DOWNLOAD_CMD_PREFIX="f-";
-    String DOWNLOAD_CMD_HELP="f -help";
+    String DOWNLOAD_CMD_HELP="f-help";
     String WAIT_FOR_UPLOAD="等待上传文件...";
     String UPLOAD_SUCCESS="文件上传成功";
     String UPLOAD_CMD="upload";

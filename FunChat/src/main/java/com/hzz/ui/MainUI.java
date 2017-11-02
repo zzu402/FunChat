@@ -1,8 +1,5 @@
 package com.hzz.ui;
 import cn.zhouyafeng.itchat4j.api.WechatTools;
-import cn.zhouyafeng.itchat4j.core.Core;
-import cn.zhouyafeng.itchat4j.service.impl.LoginServiceImpl;
-import cn.zhouyafeng.itchat4j.utils.enums.StorageLoginInfoEnum;
 import com.hzz.ui.listener.ButtonActionListener;
 import com.hzz.ui.listener.RadioButtonActionListener;
 import com.hzz.util.DataUtil;
@@ -30,12 +27,14 @@ public class MainUI  {
     private JLabel label4 = new JLabel("群发消息设置:");
     private JLabel label5 = new JLabel("手机命令设置:");
     private JLabel label6 = new JLabel("访问权限设置:");
+	private JLabel label7 = new JLabel("历史消息记录:");
 	private JRadioButton on=null;
 	private JRadioButton off =null;
 	private JButton templetButton=new JButton("设置模版");
     private JButton sendButton=new JButton("设置群发");
     private JButton commandButton=new JButton("设置命令");
     private JButton privilegeButton=new JButton("设置权限");
+	private JButton historyButton=new JButton("查看消息");
 
     private JTextArea messageArea=new JTextArea(35,25);
     private JScrollPane scrollPane;
@@ -187,6 +186,7 @@ public class MainUI  {
         addLine(label4,sendButton,"send");
         addLine(label5,commandButton,"command");
         addLine(label6,privilegeButton,"privilege");
+		addLine(label7,historyButton,"history");
         messageArea.setLineWrap(true);
         messageArea.setEditable(false);
         scrollPane=new JScrollPane(messageArea);

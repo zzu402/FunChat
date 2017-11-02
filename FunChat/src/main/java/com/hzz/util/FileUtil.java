@@ -7,21 +7,18 @@ import java.util.Date;
 import java.util.List;
 
 import com.hzz.service.MessageConstant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class FileUtil {
-	private static Logger logger = LoggerFactory.getLogger(FileUtil.class);
-
 	public static List<String> readTextFile(String path){
 		List<String>textList=new ArrayList<>();
 		File f=new File(path);
 		if(!f.exists())
 			return null;
 		try {
-			BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+			BufferedReader br=new BufferedReader(new InputStreamReader(new FileInputStream(f),"GBK"));
 			String text=br.readLine();
 			while(text!=null){
+				text=new String(text.getBytes(),"utf-8");
 				textList.add(text);
 				text=br.readLine();
 			}
@@ -59,7 +56,6 @@ public class FileUtil {
 				+ "\r\n";
 		DataUtil.messageList.add(msg);
 		writeByFileReader(path, msg);
-		logger.info("消息:" + msg + " 保存成功");
 	}
 	
 	public static List<File> getFilesFromDir(String fileDir){
@@ -92,7 +88,7 @@ public class FileUtil {
 			fileWritter.write(msg);
 			fileWritter.close();
 		} catch (IOException e) {
-			logger.error(e.getMessage());
+			System.out.print("消息写入失败");
 		}
 
 	}

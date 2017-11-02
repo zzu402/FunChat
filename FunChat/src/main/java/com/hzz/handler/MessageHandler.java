@@ -27,6 +27,7 @@ public class MessageHandler implements IMsgHandlerFace {
 	private String selfName=null;
 	private String text = null;
 	private String result=null;
+
 	@Override
 	public String textMsgHandle(BaseMsg baseMsg) {
 		fromUserName = baseMsg.getFromUserName();
@@ -39,13 +40,13 @@ public class MessageHandler implements IMsgHandlerFace {
 			result = messageService.control(baseMsg);
 			if (result != null) {
 				if (DataUtil.commandSwitch.isSaveMessage())
-					messageService.saveMsg(baseMsg,selfName,fromUserName,baseMsg.getToUserName(),result,baseMsg.isGroupMsg(),baseMsg.getMsgFromUserNameInGroup());
+					messageService.saveMsg(baseMsg,selfName,fromUserName, baseMsg.getToUserName(),result, baseMsg.isGroupMsg(), baseMsg.getMsgFromUserNameInGroup());
 				return result;
 			}
 		}
 		if (DataUtil.commandSwitch.isSaveMessage()) {// 是否启动消息备份
 			messageService.saveMsg(baseMsg,selfName, baseMsg.getToUserName(), fromUserName,
-					text, baseMsg.isGroupMsg(),baseMsg.getMsgFromUserNameInGroup());
+					text, baseMsg.isGroupMsg(), baseMsg.getMsgFromUserNameInGroup());
 		}
 		if (DataUtil.commandSwitch.isMassSend()&&CommonUtils.hasPrivilege(nickName,PrivilegeEnum.MASS.getValue())) {
 			messageService.massSend(baseMsg);
@@ -69,12 +70,12 @@ public class MessageHandler implements IMsgHandlerFace {
 					operation.setLastOperation(System.currentTimeMillis());
 					CommonUtils.operationList.put(fromUserName,operation);
 					if (DataUtil.commandSwitch.isSaveMessage())
-						messageService.saveMsg(baseMsg,selfName,baseMsg.getToUserName(),fromUserName,MessageConstant.WAIT_FOR_UPLOAD,baseMsg.isGroupMsg(),baseMsg.getMsgFromUserNameInGroup());
+						messageService.saveMsg(baseMsg,selfName, baseMsg.getToUserName(),fromUserName,MessageConstant.WAIT_FOR_UPLOAD, baseMsg.isGroupMsg(), baseMsg.getMsgFromUserNameInGroup());
 					return  MessageConstant.WAIT_FOR_UPLOAD;
 				}
 			}
 		}
-		result=autoChat(result,text,baseMsg,selfName,fromUserName,nickName);
+		result=autoChat(result,text, baseMsg,selfName,fromUserName,nickName);
 		return result;
 	}
 	@Override
@@ -94,7 +95,7 @@ public class MessageHandler implements IMsgHandlerFace {
 			if(CommonUtils.hasPrivilege(nickName, PrivilegeEnum.UPLOAD.getValue()))
 				messageService.saveFile(baseMsg, MsgTypeEnum.PIC.getType(),nowDate);
 		}
-		result=autoChat(result,text,baseMsg,selfName,fromUserName,nickName);
+		result=autoChat(result,text, baseMsg,selfName,fromUserName,nickName);
 		return result;
 	}
 	private String autoChat(String result,String text,BaseMsg baseMsg,String selfName,String fromUserName,String nickName){
@@ -102,12 +103,12 @@ public class MessageHandler implements IMsgHandlerFace {
 			result = DataUtil.getTempletValue(text);// 从消息模板里面获取
 			if (result != null) {
 				if (DataUtil.commandSwitch.isSaveMessage())
-					messageService.saveMsg(baseMsg,selfName,fromUserName,baseMsg.getToUserName(),result,baseMsg.isGroupMsg(),baseMsg.getMsgFromUserNameInGroup());
+					messageService.saveMsg(baseMsg,selfName,fromUserName, baseMsg.getToUserName(),result, baseMsg.isGroupMsg(), baseMsg.getMsgFromUserNameInGroup());
 				return result;
 			}
 			result= messageService.robot(httpClient,text);
 			if (DataUtil.commandSwitch.isSaveMessage())
-				messageService.saveMsg(baseMsg,selfName,fromUserName,baseMsg.getToUserName(),result,baseMsg.isGroupMsg(),baseMsg.getMsgFromUserNameInGroup());
+				messageService.saveMsg(baseMsg,selfName,fromUserName, baseMsg.getToUserName(),result, baseMsg.isGroupMsg(), baseMsg.getMsgFromUserNameInGroup());
 			return result;
 		}
 		return null;
@@ -130,7 +131,7 @@ public class MessageHandler implements IMsgHandlerFace {
 			if(CommonUtils.hasPrivilege(nickName,PrivilegeEnum.UPLOAD.getValue()))
 				messageService.saveFile(baseMsg, MsgTypeEnum.VOICE.getType(),nowDate);
 		}
-		result=autoChat(result,text,baseMsg,selfName,fromUserName,nickName);
+		result=autoChat(result,text, baseMsg,selfName,fromUserName,nickName);
 		return result;
 	}
 
@@ -152,7 +153,7 @@ public class MessageHandler implements IMsgHandlerFace {
 			if(CommonUtils.hasPrivilege(nickName,PrivilegeEnum.UPLOAD.getValue()))
 				messageService.saveFile(baseMsg, MsgTypeEnum.VIEDO.getType(),nowDate);
 		}
-		result=autoChat(result,text,baseMsg,selfName,fromUserName,nickName);
+		result=autoChat(result,text, baseMsg,selfName,fromUserName,nickName);
 		return result;
 	}
 
@@ -198,7 +199,7 @@ public class MessageHandler implements IMsgHandlerFace {
 			if(CommonUtils.hasPrivilege(nickName,PrivilegeEnum.UPLOAD.getValue()))
 				messageService.saveFile(baseMsg, MsgTypeEnum.MEDIA.getType(),nowDate);
 		}
-		result=autoChat(result,text,baseMsg,selfName,fromUserName,nickName);
+		result=autoChat(result,text, baseMsg,selfName,fromUserName,nickName);
 		return result;
 
 	}

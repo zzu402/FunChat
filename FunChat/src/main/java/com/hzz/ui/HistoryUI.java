@@ -6,10 +6,7 @@ import com.hzz.util.FileUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.io.File;
 
 /**
@@ -17,7 +14,7 @@ import java.io.File;
  * @Description:
  * @Date :2017/10/31
  */
-public class HistoryUI extends JFrame implements ItemListener {
+public class HistoryUI extends JFrame implements ItemListener,ActionListener {
 
     private JPanel left=new JPanel();
     private JPanel right=new JPanel();
@@ -25,17 +22,16 @@ public class HistoryUI extends JFrame implements ItemListener {
     private JScrollPane scrollPane;
     private JComboBox<String> friendSelect;
     private JLabel label1=new JLabel("选择好友或群组");
+    private JLabel label2=new JLabel("按条件搜索");
     private java.util.List<String>messageList;
     private String nick;
+    private JTextField jTextField=new JTextField(10);
+    private JButton search=new JButton("点击搜索");
 
 
     private void setNickName(){
         label1.setBounds(10,20,50,30);
         friendSelect=new JComboBox();
-//        for(int i=0;i<10;i++){
-//            friendSelect.addItem("小明"+i);
-//        }
-//        nick="小明0";
         for(int i = 0; i< WechatTools.getContactNickNameList().size(); i++){
             String nickName=WechatTools.getContactRemarkNameList().get(i);
             if(nickName.equals("")||nickName==null)
@@ -54,6 +50,13 @@ public class HistoryUI extends JFrame implements ItemListener {
         right.setLayout(new GridLayout(15,2));
         right.add(label1);
         right.add(friendSelect);
+
+        right.add(label2);
+        right.add(jTextField);
+        search.setContentAreaFilled(false);
+        search.setActionCommand("search");
+        search.addActionListener(this);
+        right.add(search);
     }
 
     public void setLeft(){
@@ -120,5 +123,16 @@ public class HistoryUI extends JFrame implements ItemListener {
                 + nick+File.separator + nick
                 + ".txt";
         messageList= FileUtil.readTextFile(path);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String command=e.getActionCommand();
+        if(command.equals("search")){
+            nick=jTextField.getText();
+            getHistoryByNick(nick);
+            setLeft();
+        }
+
     }
 }

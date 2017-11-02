@@ -22,9 +22,9 @@ public class DataUtil {
     public static List<String> messageList=new ArrayList<>();
 
     static {
-        templetMap=PropertiesUtils.getPropertiesValues(CommonUtils.diskPath.getPropertiesPath()+File.separator+ Core.getInstance().getNickName()
+        templetMap=PropertiesUtils.getPropertiesValues(CommonUtils.diskPath.getPropertiesPath()
                 + File.separator + "templet.properties");
-        privilegeMap=PropertiesUtils.getPropertiesValues(CommonUtils.diskPath.getPropertiesPath()+File.separator+ Core.getInstance().getNickName()
+        privilegeMap=PropertiesUtils.getPropertiesValues(CommonUtils.diskPath.getPropertiesPath()
                 + File.separator + "privilege.properties");
         CommonUtils.getBlackListFromPrivilege();
     }

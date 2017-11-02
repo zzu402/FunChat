@@ -168,7 +168,7 @@ public class PrivilegeUI extends JFrame implements ActionListener,ItemListener{
                 sb.append(cbs[cbs.length-1].getText());
             }
             if(sb.toString().length()>0){
-                PropertiesUtils.writeProperties(CommonUtils.diskPath.getPropertiesPath()+File.separator+ Core.getInstance().getNickName()
+                PropertiesUtils.writeProperties(CommonUtils.diskPath.getPropertiesPath()
                         + File.separator + "privilege.properties",nick,sb.toString());
                 DataUtil.privilegeMap.put(nick,sb.toString());
                 setRight();
@@ -184,7 +184,7 @@ public class PrivilegeUI extends JFrame implements ActionListener,ItemListener{
         }
     }
     public void setPrivileges(String nickName) {
-       values= PropertiesUtils.getPropertiesValue(CommonUtils.diskPath.getPropertiesPath()+File.separator+ Core.getInstance().getNickName()
+       values= PropertiesUtils.getPropertiesValue(CommonUtils.diskPath.getPropertiesPath()
                 + File.separator + "privilege.properties",nickName,null);
         getPrivilegeStatus();
     }

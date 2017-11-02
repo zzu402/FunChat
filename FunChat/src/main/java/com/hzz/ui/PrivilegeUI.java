@@ -1,6 +1,7 @@
 package com.hzz.ui;
 
 import cn.zhouyafeng.itchat4j.api.WechatTools;
+import cn.zhouyafeng.itchat4j.core.Core;
 import com.hzz.enums.PrivilegeEnum;
 import com.hzz.util.CommonUtils;
 import com.hzz.util.DataUtil;
@@ -167,7 +168,7 @@ public class PrivilegeUI extends JFrame implements ActionListener,ItemListener{
                 sb.append(cbs[cbs.length-1].getText());
             }
             if(sb.toString().length()>0){
-                PropertiesUtils.writeProperties(CommonUtils.diskPath.getPropertiesPath()
+                PropertiesUtils.writeProperties(CommonUtils.diskPath.getPropertiesPath()+File.separator+ Core.getInstance().getNickName()
                         + File.separator + "privilege.properties",nick,sb.toString());
                 DataUtil.privilegeMap.put(nick,sb.toString());
                 setRight();
@@ -183,7 +184,7 @@ public class PrivilegeUI extends JFrame implements ActionListener,ItemListener{
         }
     }
     public void setPrivileges(String nickName) {
-       values= PropertiesUtils.getPropertiesValue(CommonUtils.diskPath.getPropertiesPath()
+       values= PropertiesUtils.getPropertiesValue(CommonUtils.diskPath.getPropertiesPath()+File.separator+ Core.getInstance().getNickName()
                 + File.separator + "privilege.properties",nickName,null);
         getPrivilegeStatus();
     }

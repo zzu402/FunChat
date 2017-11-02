@@ -8,6 +8,7 @@ import cn.zhouyafeng.itchat4j.utils.MyHttpClient;
 import cn.zhouyafeng.itchat4j.utils.enums.MsgTypeEnum;
 import cn.zhouyafeng.itchat4j.utils.tools.DownloadTools;
 import com.alibaba.fastjson.JSONObject;
+import com.hzz.beans.MailBean;
 import com.hzz.beans.Operation;
 import com.hzz.enums.SwitchEnum;
 import com.hzz.service.IMessageService;
@@ -215,7 +216,7 @@ public class MessageServiceImpl implements IMessageService {
 	/*
 	 * 发送文件
 	 */
-	public void sendFileToUser(BaseMsg msg) {
+	public String sendFileToUser(BaseMsg msg) {
 		String content = msg.getContent();
 		if (content.contains(MessageConstant.DOWNLOAD_CMD_HELP)) {
 			StringBuilder sb = new StringBuilder();
@@ -228,8 +229,48 @@ public class MessageServiceImpl implements IMessageService {
 				sb.append("["+i+"] " + file.getName() + "\r\n");
 			}
 			saveMsg(msg,Core.getInstance().getUserName(),msg.getFromUserName(),msg.getToUserName(),sb.toString(),msg.isGroupMsg(),msg.getMsgFromUserNameInGroup());
-			MessageTools.sendMsgById(sb.toString(), msg.getFromUserName());
+			return  sb.toString();
+			//MessageTools.sendMsgById(sb.toString(), msg.getFromUserName());
 		}
+		if(content.startsWith(MessageConstant.DOWNLOAD_BY_EMAIL)&&content.contains(MessageConstant.EMAIL_USER_COUNT)){
+			Pattern p = Pattern.compile("\\d+");
+			Matcher m = p.matcher(content);
+			if (m.find()) {
+				int n = Integer.valueOf(m.group(0));
+				List<File> fileList = FileUtil
+						.getFilesFromDir(CommonUtils.diskPath.getFilePath());
+				File f = fileList.get(n);
+				String[]s=content.split("-u");
+				if(s.length>1){
+					String to=s[1];
+					if(f.length()>50*1024*1024){
+						//MessageTools.sendMsgById(MessageConstant.FILE_HUGE,msg.getFromUserName());
+						return MessageConstant.FILE_HUGE_MAIL;
+					}
+					MailBean mb = new MailBean();
+					mb.setHost("smtp.163.com");
+					mb.setUsername("18903811375@163.com");
+					mb.setPassword("fj916693");
+					mb.setFrom(MailUtil.toChinese("趣聊助手")+"<18903811375@163.com>");
+					mb.setTo(to);
+					mb.setContent("本邮件中包含1个附件，请检查！");
+					mb.attachFile(f.getAbsolutePath());
+					MailUtil sm = new MailUtil();
+					mb.setSubject(sm.toChinese("趣聊助手资源文件送达"));
+					MessageTools.sendMsgById(MessageConstant.MAIL_SENDING,msg.getFromUserName());
+					if (sm.sendMail(mb)) {
+						return MessageConstant.EMAIL_SUCCESS;
+						//MessageTools.sendMsgById(MessageConstant.EMAIL_SUCCESS,msg.getFromUserName());
+					} else {
+						return MessageConstant.EMAIL_ERROR;
+						//MessageTools.sendMsgById(MessageConstant.EMAIL_ERROR,msg.getFromUserName());
+					}
+				}
+			}
+
+
+		}
+
 		if (content.startsWith(MessageConstant.DOWNLOAD_CMD_PREFIX)) {
 			Pattern p = Pattern.compile("\\d+");
 			Matcher m = p.matcher(content);
@@ -238,17 +279,23 @@ public class MessageServiceImpl implements IMessageService {
 				List<File> fileList = FileUtil
 						.getFilesFromDir(CommonUtils.diskPath.getFilePath());
 				File f=fileList.get(n);
+				if(f.length()>1*1024*1024){
+					//MessageTools.sendMsgById(MessageConstant.FILE_HUGE,msg.getFromUserName());
+					return MessageConstant.FILE_HUGE;
+				}
 				if (DataUtil.commandSwitch.isSaveMessage())
 					saveMsg(msg,Core.getInstance().getUserName(),msg.getFromUserName(),msg.getToUserName(),
 							MessageConstant.SEND_FILE+f.getName(),msg.isGroupMsg(),msg.getMsgFromUserNameInGroup());
 
-				if(f.getName().contains(MessageConstant.PIC_SUFFIX)){
+				if(f.getName().contains(MessageConstant.PIC_SUFFIX)||f.getName().contains("")){
 					MessageTools.sendPicMsgByUserId(msg.getFromUserName(),f.getAbsolutePath());
 				}else
 					MessageTools.sendFileMsgByUserId(msg.getFromUserName(),
 						f.getAbsolutePath());
 			}
 		}
+		return null;
+
 	}
 
 	/**

@@ -1,5 +1,7 @@
 package com.hzz.util;
 
+import cn.zhouyafeng.itchat4j.api.WechatTools;
+import cn.zhouyafeng.itchat4j.core.Core;
 import com.hzz.beans.CommandSwitch;
 
 import java.io.File;
@@ -20,9 +22,9 @@ public class DataUtil {
     public static List<String> messageList=new ArrayList<>();
 
     static {
-        templetMap=PropertiesUtils.getPropertiesValues(CommonUtils.diskPath.getPropertiesPath()
+        templetMap=PropertiesUtils.getPropertiesValues(CommonUtils.diskPath.getPropertiesPath()+File.separator+ Core.getInstance().getNickName()
                 + File.separator + "templet.properties");
-        privilegeMap=PropertiesUtils.getPropertiesValues(CommonUtils.diskPath.getPropertiesPath()
+        privilegeMap=PropertiesUtils.getPropertiesValues(CommonUtils.diskPath.getPropertiesPath()+File.separator+ Core.getInstance().getNickName()
                 + File.separator + "privilege.properties");
         CommonUtils.getBlackListFromPrivilege();
     }

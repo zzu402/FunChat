@@ -1,5 +1,6 @@
 package com.hzz.ui;
 
+import cn.zhouyafeng.itchat4j.core.Core;
 import com.hzz.util.CommonUtils;
 import com.hzz.util.DataUtil;
 import com.hzz.util.PropertiesUtils;
@@ -83,7 +84,7 @@ public class TempletUI extends JFrame implements ActionListener{
             if(key==null||key.equals("")||value==null||value.equals(""))
                 continue;
             DataUtil.templetMap.put(key,value);
-            PropertiesUtils.writeProperties(CommonUtils.diskPath.getPropertiesPath()+ File.separator+"templet.properties",key,value);
+            PropertiesUtils.writeProperties(CommonUtils.diskPath.getPropertiesPath()+File.separator+ Core.getInstance().getNickName()+ File.separator+"templet.properties",key,value);
 //            PropertiesUtils.writeProperties("D:\\templet.properties",key,value);
         }
         JOptionPane.showMessageDialog(this,"设置成功");

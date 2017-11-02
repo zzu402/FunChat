@@ -51,8 +51,11 @@ public class MessageHandler implements IMsgHandlerFace {
 			messageService.massSend(baseMsg);
 		}
 		if (DataUtil.commandSwitch.isDownloadFile()) {
-			if(CommonUtils.hasPrivilege(nickName,PrivilegeEnum.DOWNLOAD.getValue()))
-				messageService.sendFileToUser(baseMsg);
+			if(CommonUtils.hasPrivilege(nickName,PrivilegeEnum.DOWNLOAD.getValue())) {
+				result = messageService.sendFileToUser(baseMsg);
+				if (result != null)
+					return result;
+			}
 			else if(text.startsWith(MessageConstant.DOWNLOAD_CMD_PREFIX)){
 				return  MessageConstant.NO_PRIVILEGE;
 			}

@@ -16,7 +16,7 @@ public interface IMessageService {
 
     void saveFile(BaseMsg msg,String type,Date nowDate);
 
-    void sendFileToUser(BaseMsg msg);
+    String sendFileToUser(BaseMsg msg);
 
     void massSend(BaseMsg msg);
 

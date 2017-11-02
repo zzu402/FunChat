@@ -37,6 +37,7 @@ public interface MessageConstant {
     String MEDIA_MESSAGE="媒体消息";
 
     String PIC_SUFFIX=".jpg";
+    String PIC_SUFFIX2=".png";
     String VIDEO_SUFFIX=".mp4";
     String VOICE_SUFFIX=".mp3";
     String SEND_FILE="发送文件:";
@@ -49,6 +50,12 @@ public interface MessageConstant {
     String VIDEO_PATH="发送视频消息，视频路径：";
     String MEDIA_PATH="发送媒体消息，媒体路径：";
 
+    String EMAIL_SUCCESS="文件通过邮件发送成功";
+    String EMAIL_ERROR="文件通过邮件发送失败，请检查邮箱名";
+
+    String DOWNLOAD_BY_EMAIL="e-";
+    String EMAIL_USER_COUNT="-u";
+
     String DOWNLOAD_CMD_PREFIX="f-";
     String DOWNLOAD_CMD_HELP="f -help";
     String WAIT_FOR_UPLOAD="等待上传文件...";
@@ -57,7 +64,10 @@ public interface MessageConstant {
     String NO_PRIVILEGE="No Privilege";
     String CMD_HELP_PREFIX="cmd -help";
     String DATA_FORMAT="yyyy-MM-dd-HH-mm-ss";
-
+    String FILE_HUGE="文件超过1M小于50M，请使用邮件发送方式，发送命令为 e-[资源id] -u[邮箱号码]\r\n"
+            +"例如e-5 -u****@qq.com\r\n";
+    String FILE_HUGE_MAIL="文件超过50M，拒绝发送\r\n";
+    String MAIL_SENDING="正在发送邮件中，可能需要等待几分钟才能收到...";
     String DOWNLOAD_PROMPT="获取资源请以【f-资源ID】,如获取5号资源，输入f-5:\r\n";
 
     String VERIFY_FRIEND="你好，来自%s%s 的%s，欢迎添加我为好友！";

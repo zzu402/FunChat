@@ -44,6 +44,9 @@ public class LoginUI extends JFrame{
                 while(!Core.getInstance().isAlive()){
                     SleepUtils.sleep(400);
                 }
+                while(Core.getInstance().getNickName()==null){
+                    SleepUtils.sleep(400);
+                }
                 LoginUI.this.setVisible(false);
                 MainUI mainUI=new MainUI();
                 new Thread(new Runnable() {

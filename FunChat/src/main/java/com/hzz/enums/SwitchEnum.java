@@ -9,6 +9,8 @@ public enum SwitchEnum {
 
     START_AUTO_CHAT("start auto chat","开启自动聊天模块"),
     CLOSE_AUTO_CHAT("close auto chat","关闭自动聊天模块"),
+    START_ROBOT_CHAT("start robot chat","开启机器人聊天模块"),
+    CLOSE_ROBOT_CHAT("close robot chat","关闭机器人聊天模块"),
     START_SAVE_MSG("start save message","开启聊天备份模块"),
     CLOSE_SAVE_MSG("close save message","关闭聊天备份模块"),
     START_SAVE_PIC("start save pic","开启图片备份模块"),

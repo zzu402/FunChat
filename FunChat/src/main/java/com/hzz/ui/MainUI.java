@@ -19,7 +19,6 @@ public class MainUI  {
 ////		UI.updateButtonGroup();
 //	}
     private JPanel right=new JPanel();
-	private static final long serialVersionUID = 2L;
 	private JFrame mainForm = new JFrame("微信趣聊助手-v1.1"); // 主窗体，”
 	private JLabel label1 = new JLabel("开关设置:");
 	private JLabel label2=null;
@@ -44,7 +43,7 @@ public class MainUI  {
 	private Container container ;
 	private ButtonActionListener buttonActionListener=new ButtonActionListener(mainForm);
 	private RadioButtonActionListener radioButtonActionListener=new RadioButtonActionListener();
-	private int y=30;
+	private int y=5;
 	private void addButtonGroup(String labelName,String command,boolean turnOn){
 		on=new JRadioButton("开",turnOn);
 		off =new JRadioButton("关",!turnOn);
@@ -138,12 +137,25 @@ public class MainUI  {
 				if(command.equals("controlPcoff")&&!DataUtil.commandSwitch.isControlPc()){
 					jRadioButton.setSelected(true);
 				}
+				if(command.equals("verifyFriendon")&&DataUtil.commandSwitch.isVerifyFriend()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("verifyFriendoff")&&!DataUtil.commandSwitch.isVerifyFriend()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("robotChaton")&&DataUtil.commandSwitch.isRobotChat()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("robotChatoff")&&!DataUtil.commandSwitch.isRobotChat()){
+					jRadioButton.setSelected(true);
+				}
 				jRadioButton.paintImmediately(jRadioButton.getBounds());
 			}
 		}
 	}
 	private void addButtonGroups(){
 		addButtonGroup("自动聊天","autoChat", DataUtil.commandSwitch.isAutoChat());
+		addButtonGroup("机器人聊天","robotChat", DataUtil.commandSwitch.isRobotChat());
 		addButtonGroup("消息备份","saveMsg",DataUtil.commandSwitch.isSaveMessage());
 		addButtonGroup("图片保存","savePic",DataUtil.commandSwitch.isSavePic());
 		addButtonGroup("视频保存","saveVideo",DataUtil.commandSwitch.isSaveVideo());
@@ -174,7 +186,7 @@ public class MainUI  {
         right.setBounds(310,0,300,600);
         right.setBorder(BorderFactory.createTitledBorder("消息记录"));
          /* 设置各元素位置布局 */
-        label1.setBounds(30, 10, 100, 30);
+        label1.setBounds(30, 5, 100, 30);
 		addButtonGroups();
 		y+=15;
         addLine(label3,templetButton,"templet");

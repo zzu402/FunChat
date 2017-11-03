@@ -44,6 +44,8 @@ public class CommonUtils {
     public static String getRemarkNameByUserName(String userName){
         boolean isFind=false;
         String self=Core.getInstance().getUserName();
+        if(self==null)
+            return "";
         if(userName.equals(self))
             return Core.getInstance().getUserSelf().getString("RemarkName");
 
@@ -71,6 +73,8 @@ public class CommonUtils {
             return remark;
         boolean isFind=false;
         String self=Core.getInstance().getUserName();
+        if(self==null)
+            return userName;
         if(userName.equals(self))
         	return Core.getInstance().getUserSelf().getString("NickName");
         

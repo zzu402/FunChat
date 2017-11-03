@@ -44,7 +44,13 @@ public class MessageServiceImpl implements IMessageService {
 			} else if (text.equalsIgnoreCase(SwitchEnum.CLOSE_AUTO_CHAT.getCommand())) {
 				DataUtil.commandSwitch.setAutoChat(false);
 				logger.info(SwitchEnum.CLOSE_AUTO_CHAT.getDesc());
-			} else if (text.equalsIgnoreCase(SwitchEnum.START_SAVE_MSG.getCommand())) {
+			} else if (text.equalsIgnoreCase(SwitchEnum.START_ROBOT_CHAT.getCommand())) {
+                DataUtil.commandSwitch.setRobotChat(true);
+                logger.info(SwitchEnum.START_ROBOT_CHAT.getDesc());
+            } else if (text.equalsIgnoreCase(SwitchEnum.CLOSE_ROBOT_CHAT.getCommand())) {
+                DataUtil.commandSwitch.setRobotChat(false);
+                logger.info(SwitchEnum.CLOSE_ROBOT_CHAT.getDesc());
+            } else if (text.equalsIgnoreCase(SwitchEnum.START_SAVE_MSG.getCommand())) {
 				DataUtil.commandSwitch.setSaveMessage(true);
 				logger.info(SwitchEnum.START_SAVE_MSG.getDesc());
 			} else if (text.equalsIgnoreCase(SwitchEnum.CLOSE_SAVE_MSG.getCommand())) {

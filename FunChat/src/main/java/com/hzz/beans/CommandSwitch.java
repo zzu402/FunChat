@@ -7,6 +7,7 @@ package com.hzz.beans;
  */
 public class CommandSwitch {
     private boolean autoChat = false;// 启动自动聊天
+    private boolean robotChat=false;//机器人聊天
     private boolean saveMessage = true;// 启动消息备份
     private boolean saveVoice = true;//
     private boolean saveMedia = true;//
@@ -19,6 +20,13 @@ public class CommandSwitch {
     private boolean uploadFile=true;
     private boolean verifyFriend=true;
 
+    public boolean isRobotChat() {
+        return robotChat;
+    }
+
+    public void setRobotChat(boolean robotChat) {
+        this.robotChat = robotChat;
+    }
 
     public boolean isUploadFile() {
         return uploadFile;

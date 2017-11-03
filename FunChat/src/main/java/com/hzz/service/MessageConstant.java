@@ -4,6 +4,8 @@ public interface MessageConstant {
     String CMD_HELP = "开关命令：\r\n"
             +"开启自动聊天:start auto chat\r\n"
             + "关闭自动聊天:close auto chat\r\n"
+            +"开启机器人聊天:start robot chat\r\n"
+            + "关闭机器人聊天:close robot chat\r\n"
             + "开启图片保存模式:start save pic\r\n"
             + "关闭图片保存模式:start save pic\r\n"
             + "开启消息备份模式:start save message\r\n"

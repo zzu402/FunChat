@@ -22,6 +22,12 @@ public class RadioButtonActionListener implements ActionListener{
         if(command.equals("autoChatoff")){
             DataUtil.commandSwitch.setAutoChat(false);
         }
+        if(command.equals("robotChaton")){
+            DataUtil.commandSwitch.setRobotChat(true);
+        }
+        if(command.equals("robotChatoff")){
+            DataUtil.commandSwitch.setRobotChat(false);
+        }
         if(command.equals("saveMsgon")){
             DataUtil.commandSwitch.setSaveMessage(true);
         }

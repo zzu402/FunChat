@@ -106,17 +106,19 @@ public class MessageHandler implements IMsgHandlerFace {
 	}
 	private String autoChat(String result,String text,BaseMsg baseMsg,String selfName,String fromUserName,String nickName){
 		if (DataUtil.commandSwitch.isAutoChat()&&(!CommonUtils.isBlackList(nickName)||CommonUtils.hasPrivilege(nickName,PrivilegeEnum.AUTOCHAT.getValue()))) {// 是否启动自动聊天
-			result = DataUtil.getTempletValue(text);// 从消息模板里面获取
-			if (result != null) {
-				if (DataUtil.commandSwitch.isSaveMessage())
-					messageService.saveMsg(baseMsg,selfName,fromUserName, baseMsg.getToUserName(),result, baseMsg.isGroupMsg(), baseMsg.getMsgFromUserNameInGroup());
-				return result;
-			}
-			result= messageService.robot(httpClient,text);
-			if (DataUtil.commandSwitch.isSaveMessage())
-				messageService.saveMsg(baseMsg,selfName,fromUserName, baseMsg.getToUserName(),result, baseMsg.isGroupMsg(), baseMsg.getMsgFromUserNameInGroup());
-			return result;
+            result = DataUtil.getTempletValue(text);// 从消息模板里面获取
+            if (result != null) {
+                if (DataUtil.commandSwitch.isSaveMessage())
+                    messageService.saveMsg(baseMsg, selfName, fromUserName, baseMsg.getToUserName(), result, baseMsg.isGroupMsg(), baseMsg.getMsgFromUserNameInGroup());
+                return result;
+            }
 		}
+        if (DataUtil.commandSwitch.isRobotChat()&&(!CommonUtils.isBlackList(nickName)||CommonUtils.hasPrivilege(nickName,PrivilegeEnum.AUTOCHAT.getValue()))) {
+            result = messageService.robot(httpClient, text);
+            if (DataUtil.commandSwitch.isSaveMessage())
+                messageService.saveMsg(baseMsg, selfName, fromUserName, baseMsg.getToUserName(), result, baseMsg.isGroupMsg(), baseMsg.getMsgFromUserNameInGroup());
+            return result;
+        }
 		return null;
 	}
 	@Override

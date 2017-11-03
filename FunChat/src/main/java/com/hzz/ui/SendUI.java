@@ -111,6 +111,8 @@ public class SendUI extends JFrame implements ActionListener{
                 Matcher isNum = pattern.matcher(input);
                 if (isNum.matches()) {
                     String text = textArea.getText();
+                    if(text==null||text.equals(""))
+                        return;
                     Long time = Long.parseLong(input);
                     sendMessageByShedule(text, time);
                 } else if (input != null && !isNum.matches()) {

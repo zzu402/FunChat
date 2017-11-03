@@ -1,5 +1,6 @@
 package com.hzz.ui;
 
+import cn.zhouyafeng.itchat4j.utils.SleepUtils;
 import com.hzz.service.implement.MessageServiceImpl;
 import com.hzz.util.DataUtil;
 
@@ -9,6 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @Author: huangzz
@@ -51,7 +57,7 @@ public class SendUI extends JFrame implements ActionListener{
         textArea.setAutoscrolls(true);
         left.add(textArea);
         left.add(submit);
-        //left.add(shedule);
+        left.add(shedule);
     }
 
     public SendUI(JFrame main){
@@ -88,14 +94,39 @@ public class SendUI extends JFrame implements ActionListener{
             }
         });
     }
-//    public static void main(String []args){
-//        new SendUI(null);
-//    }
+    public static void main(String []args){
+           new SendUI(null);
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         String command=e.getActionCommand();
         if(command.equals("submit")){
             submit();
         }
+        if(command.equals("shedule")) {
+            String input = JOptionPane.showInputDialog("输入时间（秒）:");
+            Pattern pattern = Pattern.compile("[0-9]*");
+
+            if (input != null) {
+                Matcher isNum = pattern.matcher(input);
+                if (isNum.matches()) {
+                    String text = textArea.getText();
+                    Long time = Long.parseLong(input);
+                    sendMessageByShedule(text, time);
+                } else if (input != null && !isNum.matches()) {
+                JOptionPane.showMessageDialog(this, "请输入正确的数字");
+            }
+         }
+        }
+    }
+
+    private void sendMessageByShedule(String text, Long time) {
+        Runnable runnable = new Runnable() {
+            public void run() {
+                SleepUtils.sleep(time*1000);//开上一个线程让它睡到指定时间
+                MessageServiceImpl.massSend(text);
+            }
+        };
+      new Thread(runnable).start();
     }
 }

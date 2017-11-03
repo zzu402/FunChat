@@ -3,6 +3,8 @@ package com.hzz.ui;
 import cn.zhouyafeng.itchat4j.api.WechatTools;
 import cn.zhouyafeng.itchat4j.core.Core;
 import cn.zhouyafeng.itchat4j.utils.SleepUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,13 +18,13 @@ import java.awt.event.WindowEvent;
  */
 public class LoginUI extends JFrame{
     private static final long serialVersionUID = 1L;
+    private static Logger logger = LoggerFactory.getLogger(LoginUI.class);
     private JLabel label;
     private Icon icon;
     private Image image;
-
     public LoginUI(String path){
         try{
-            setTitle("扫描进行登陆");
+            setTitle("请扫描进行登陆");
             setSize(310,340);
             label = new JLabel();
             add(label);
@@ -42,7 +44,7 @@ public class LoginUI extends JFrame{
             });
 
         }catch(Exception e){
-            System.out.println("初始化失败"+e.getMessage());
+            logger.error("登录界面初始化失败："+e.getMessage());
         }
         label.setIcon(icon);
         redict();
@@ -53,10 +55,7 @@ public class LoginUI extends JFrame{
             @Override
             public void run() {
                 while(!Core.getInstance().isAlive()){
-                    SleepUtils.sleep(400);
-                }
-                while(Core.getInstance().getNickName()==null){
-                    SleepUtils.sleep(400);
+                    SleepUtils.sleep(500);
                 }
                 LoginUI.this.setVisible(false);
                 MainUI mainUI=new MainUI();
@@ -64,7 +63,7 @@ public class LoginUI extends JFrame{
                     @Override
                     public void run() {
                         while(true) {
-                            SleepUtils.sleep(2000);
+                            SleepUtils.sleep(2000);//每个两秒去更新下界面
                             mainUI.updateButtonGroup();
                             mainUI.setRight();
                         }

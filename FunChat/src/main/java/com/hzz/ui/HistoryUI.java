@@ -1,5 +1,6 @@
 package com.hzz.ui;
 import cn.zhouyafeng.itchat4j.api.WechatTools;
+import cn.zhouyafeng.itchat4j.core.Core;
 import com.hzz.util.CommonUtils;
 import com.hzz.util.DataUtil;
 import com.hzz.util.FileUtil;
@@ -105,9 +106,6 @@ public class HistoryUI extends JFrame implements ItemListener,ActionListener {
             }
         });
     }
-    public static void main(String []args){
-        new HistoryUI(null);
-    }
 
     @Override
     public void itemStateChanged(ItemEvent e) {
@@ -120,7 +118,7 @@ public class HistoryUI extends JFrame implements ItemListener,ActionListener {
 
     private void getHistoryByNick(String nick) {
         String path = CommonUtils.diskPath.getMessagePath() + File.separator
-                + nick+File.separator + nick
+                + CommonUtils.getNickByUserName(Core.getInstance().getUserName())+File.separator + nick
                 + ".txt";
         messageList= FileUtil.readTextFile(path);
     }

@@ -13,6 +13,8 @@ import com.hzz.service.implement.MessageServiceImpl;
 import com.hzz.enums.PrivilegeEnum;
 import com.hzz.util.CommonUtils;
 import com.hzz.util.DataUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.Date;
 /**
  * @Author: huangzz
@@ -20,6 +22,7 @@ import java.util.Date;
  * @Date :2017/10/27
  */
 public class MessageHandler implements IMsgHandlerFace {
+	private static Logger logger = LoggerFactory.getLogger(MessageHandler.class);
 	private MyHttpClient httpClient = MyHttpClient.getInstance();
 	private IMessageService messageService = new MessageServiceImpl();
 	private String fromUserName =null;
@@ -27,7 +30,6 @@ public class MessageHandler implements IMsgHandlerFace {
 	private String selfName=null;
 	private String text = null;
 	private String result=null;
-
 	@Override
 	public String textMsgHandle(BaseMsg baseMsg) {
 		fromUserName = baseMsg.getFromUserName();
@@ -36,6 +38,10 @@ public class MessageHandler implements IMsgHandlerFace {
 		text = baseMsg.getText();
 		result=null;
 		messageService.setCommand(text, fromUserName, selfName);
+        if (DataUtil.commandSwitch.isSaveMessage()) {// 是否启动消息备份
+            messageService.saveMsg(baseMsg,selfName, baseMsg.getToUserName(), fromUserName,
+                    text, baseMsg.isGroupMsg(), baseMsg.getMsgFromUserNameInGroup());
+        }
 		if (DataUtil.commandSwitch.isControlPc()&&CommonUtils.hasPrivilege(nickName,PrivilegeEnum.CONTROL.getValue())) {// 是否控制电脑
 			result = messageService.control(baseMsg);
 			if (result != null) {
@@ -44,18 +50,18 @@ public class MessageHandler implements IMsgHandlerFace {
 				return result;
 			}
 		}
-		if (DataUtil.commandSwitch.isSaveMessage()) {// 是否启动消息备份
-			messageService.saveMsg(baseMsg,selfName, baseMsg.getToUserName(), fromUserName,
-					text, baseMsg.isGroupMsg(), baseMsg.getMsgFromUserNameInGroup());
-		}
 		if (DataUtil.commandSwitch.isMassSend()&&CommonUtils.hasPrivilege(nickName,PrivilegeEnum.MASS.getValue())) {
 			messageService.massSend(baseMsg);
+			return null;//群发消息之后不再执行下面动作
 		}
 		if (DataUtil.commandSwitch.isDownloadFile()) {
 			if(CommonUtils.hasPrivilege(nickName,PrivilegeEnum.DOWNLOAD.getValue())) {
 				result = messageService.sendFileToUser(baseMsg);
-				if (result != null)
-					return result;
+				if (result != null) {
+                    if(DataUtil.commandSwitch.isSaveMessage())
+                        messageService.saveMsg(baseMsg,Core.getInstance().getUserName(),baseMsg.getFromUserName(),baseMsg.getToUserName(),result,baseMsg.isGroupMsg(),baseMsg.getMsgFromUserNameInGroup());
+                    return result;
+                }
 			}
 			else if(text.startsWith(MessageConstant.DOWNLOAD_CMD_PREFIX)){
 				return  MessageConstant.NO_PRIVILEGE;

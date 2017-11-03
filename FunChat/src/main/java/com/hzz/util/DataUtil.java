@@ -1,9 +1,8 @@
 package com.hzz.util;
 
-import cn.zhouyafeng.itchat4j.api.WechatTools;
-import cn.zhouyafeng.itchat4j.core.Core;
-import com.hzz.beans.CommandSwitch;
 
+import com.hzz.beans.CommandSwitch;
+import com.hzz.beans.MailBean;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +19,7 @@ public class DataUtil {
     public static CommandSwitch commandSwitch = new CommandSwitch();
     public static List<String> blackList=new ArrayList<>();
     public static List<String> messageList=new ArrayList<>();
+    public static MailBean mailBean=new MailBean();
 
     static {
         templetMap=PropertiesUtils.getPropertiesValues(CommonUtils.diskPath.getPropertiesPath()
@@ -27,6 +27,12 @@ public class DataUtil {
         privilegeMap=PropertiesUtils.getPropertiesValues(CommonUtils.diskPath.getPropertiesPath()
                 + File.separator + "privilege.properties");
         CommonUtils.getBlackListFromPrivilege();
+        mailBean.setContent(PropertiesUtils.getPropertiesValue(DataUtil.class,"/mail_config.properties","mailContent",""));
+        mailBean.setSubject(PropertiesUtils.getPropertiesValue(DataUtil.class,"/mail_config.properties","subject",""));
+        mailBean.setFrom(PropertiesUtils.getPropertiesValue(DataUtil.class,"/mail_config.properties","from",""));
+        mailBean.setPassword(PropertiesUtils.getPropertiesValue(DataUtil.class,"/mail_config.properties","password",""));
+        mailBean.setUsername(PropertiesUtils.getPropertiesValue(DataUtil.class,"/mail_config.properties","userName",""));
+        mailBean.setHost(PropertiesUtils.getPropertiesValue(DataUtil.class,"/mail_config.properties","host",""));
     }
 
     public static String getTempletValue(String text) {
@@ -37,5 +43,4 @@ public class DataUtil {
         }
         return null;
     }
-
 }

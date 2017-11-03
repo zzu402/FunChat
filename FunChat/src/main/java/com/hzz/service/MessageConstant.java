@@ -36,6 +36,8 @@ public interface MessageConstant {
     String VIDEO_MESSAGE="视频消息";
     String VOICE_MESSAGE="声频消息";
     String MEDIA_MESSAGE="媒体消息";
+    String CONTROL_PREFIX="exec";
+    String MASS_SUCCESS="群发消息成功";
 
     String PIC_SUFFIX=".jpg";
     String PIC_SUFFIX2=".png";

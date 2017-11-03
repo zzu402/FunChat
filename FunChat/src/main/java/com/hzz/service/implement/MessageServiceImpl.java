@@ -1,10 +1,10 @@
 package com.hzz.service.implement;
-
 import cn.zhouyafeng.itchat4j.api.MessageTools;
 import cn.zhouyafeng.itchat4j.api.WechatTools;
 import cn.zhouyafeng.itchat4j.beans.BaseMsg;
 import cn.zhouyafeng.itchat4j.core.Core;
 import cn.zhouyafeng.itchat4j.utils.MyHttpClient;
+import cn.zhouyafeng.itchat4j.utils.SleepUtils;
 import cn.zhouyafeng.itchat4j.utils.enums.MsgTypeEnum;
 import cn.zhouyafeng.itchat4j.utils.tools.DownloadTools;
 import com.alibaba.fastjson.JSONObject;
@@ -117,59 +117,7 @@ public class MessageServiceImpl implements IMessageService {
 		}
 	}
 
-	private String getPicFromPath(BaseMsg baseMsg,Date now){
-		String fileName = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
-				.format(now) + MessageConstant.PIC_SUFFIX; // 这里使用收到图片的时间作为文件名
-		String userName = CommonUtils.select(baseMsg.getFromUserName(),
-				baseMsg.getToUserName(), Core.getInstance().getUserName());
-		String path = CommonUtils.diskPath.getPicPath() + File.separator
-				+ CommonUtils.getNickByUserName(userName);
-		File file = new File(path);
-		if (!file.exists() && !file.isDirectory())
-			file.mkdirs();
-		String picPath = path + File.separator + fileName; // 保存图片的路径
-		return picPath;
-	}
-	private String getVoiceFromPath(BaseMsg baseMsg,Date now){
-		String fileName = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
-				.format(now) + MessageConstant.VOICE_SUFFIX; // 这里使用收到图片的时间作为文件名
-		String userName = CommonUtils.select(baseMsg.getFromUserName(),
-				baseMsg.getToUserName(), Core.getInstance().getUserName());
-		String path = CommonUtils.diskPath.getVoicePath() + File.separator
-				+ CommonUtils.getNickByUserName(userName);
-		File file = new File(path);
-		if (!file.exists() && !file.isDirectory())
-			file.mkdirs();
-		String voicePath = path + File.separator + fileName; // 保存图片的路径
-		return voicePath;
-	}
-	private String getVideoFromPath(BaseMsg baseMsg,Date now){
-		String fileName = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
-				.format(now) + MessageConstant.VIDEO_SUFFIX; // 这里使用收到图片的时间作为文件名
-		String userName = CommonUtils.select(baseMsg.getFromUserName(),
-				baseMsg.getToUserName(), Core.getInstance().getUserName());
-		String path = CommonUtils.diskPath.getVideoPath() + File.separator
-				+ CommonUtils.getNickByUserName(userName);
-		File file = new File(path);
-		if (!file.exists() && !file.isDirectory())
-			file.mkdirs();
-		String videoPath = path + File.separator + fileName; // 保存图片的路径
-		return videoPath;
-	}
 
-	private String getMediaFromPath(BaseMsg baseMsg,Date now){
-		String fileName = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
-				.format(now) + baseMsg.getFileName(); //
-		String userName = CommonUtils.select(baseMsg.getFromUserName(),
-				baseMsg.getToUserName(), Core.getInstance().getUserName());
-		String path = CommonUtils.diskPath.getMediaPath() + File.separator
-				+ CommonUtils.getNickByUserName(userName);
-		File file = new File(path);
-		if (!file.exists() && !file.isDirectory())
-			file.mkdirs();
-		String mediaPath = path + File.separator + fileName; // 保存图片的路径
-		return mediaPath;
-	}
 
 	public void saveFile(BaseMsg msg,String type,Date nowDate){
 		String fromUserName= msg.getFromUserName();
@@ -218,6 +166,7 @@ public class MessageServiceImpl implements IMessageService {
 	 */
 	public String sendFileToUser(BaseMsg msg) {
 		String content = msg.getContent();
+		final String nick=CommonUtils.getNickByUserName(msg.getFromUserName());
 		if (content.contains(MessageConstant.DOWNLOAD_CMD_HELP)) {
 			StringBuilder sb = new StringBuilder();
 			sb.append(MessageConstant.DOWNLOAD_PROMPT);
@@ -228,9 +177,7 @@ public class MessageServiceImpl implements IMessageService {
 				file = fileList.get(i);
 				sb.append("["+i+"] " + file.getName() + "\r\n");
 			}
-			saveMsg(msg,Core.getInstance().getUserName(),msg.getFromUserName(),msg.getToUserName(),sb.toString(),msg.isGroupMsg(),msg.getMsgFromUserNameInGroup());
 			return  sb.toString();
-			//MessageTools.sendMsgById(sb.toString(), msg.getFromUserName());
 		}
 		if(content.startsWith(MessageConstant.DOWNLOAD_BY_EMAIL)&&content.contains(MessageConstant.EMAIL_USER_COUNT)){
 			Pattern p = Pattern.compile("\\d+");
@@ -239,36 +186,44 @@ public class MessageServiceImpl implements IMessageService {
 				int n = Integer.valueOf(m.group(0));
 				List<File> fileList = FileUtil
 						.getFilesFromDir(CommonUtils.diskPath.getFilePath());
-				File f = fileList.get(n);
+				final File f = fileList.get(n);
 				String[]s=content.split("-u");
 				if(s.length>1){
-					String to=s[1];
+					final String to=s[1];
 					if(f.length()>50*1024*1024){
-						//MessageTools.sendMsgById(MessageConstant.FILE_HUGE,msg.getFromUserName());
 						return MessageConstant.FILE_HUGE_MAIL;
 					}
-					MailBean mb = new MailBean();
-					mb.setHost("smtp.163.com");
-					mb.setUsername("18903811375@163.com");
-					mb.setPassword("fj916693");
-					mb.setFrom(MailUtil.toChinese("趣聊助手")+"<18903811375@163.com>");
-					mb.setTo(to);
-					mb.setContent("本邮件中包含1个附件，请检查！");
-					mb.attachFile(f.getAbsolutePath());
-					MailUtil sm = new MailUtil();
-					mb.setSubject(sm.toChinese("趣聊助手资源文件送达"));
-					MessageTools.sendMsgById(MessageConstant.MAIL_SENDING,msg.getFromUserName());
-					if (sm.sendMail(mb)) {
-						return MessageConstant.EMAIL_SUCCESS;
-						//MessageTools.sendMsgById(MessageConstant.EMAIL_SUCCESS,msg.getFromUserName());
-					} else {
-						return MessageConstant.EMAIL_ERROR;
-						//MessageTools.sendMsgById(MessageConstant.EMAIL_ERROR,msg.getFromUserName());
-					}
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							MailBean mb = new MailBean();
+							mb.setHost(DataUtil.mailBean.getHost());
+							mb.setUsername(DataUtil.mailBean.getUsername());
+							mb.setPassword(DataUtil.mailBean.getPassword());
+							mb.setFrom(MailUtil.toChinese(DataUtil.mailBean.getFrom()));
+							mb.setTo(to);
+							mb.setContent(DataUtil.mailBean.getContent());
+							mb.attachFile(f.getAbsolutePath());
+							MailUtil sm = new MailUtil();
+							mb.setSubject(sm.toChinese(DataUtil.mailBean.getSubject()));
+							MessageTools.sendMsgById(MessageConstant.MAIL_SENDING,msg.getFromUserName());
+							if (sm.sendMail(mb)) {
+								FileUtil.writeByFileReader(CommonUtils.diskPath.getMessagePath()+File.separator+CommonUtils.getNickByUserName(Core.getInstance().getUserName())+File.separator+"email.txt","用户："+nick+"获取资源"+f.getName()+"成功"+"邮箱地址:"+to);
+								MessageTools.sendMsgById(MessageConstant.EMAIL_SUCCESS,msg.getFromUserName());
+								logger.info(MessageConstant.EMAIL_SUCCESS);
+								if(DataUtil.commandSwitch.isSaveMessage())
+									saveMsg(msg,Core.getInstance().getUserName(),msg.getFromUserName(),msg.getToUserName(),MessageConstant.EMAIL_SUCCESS,msg.isGroupMsg(),msg.getMsgFromUserNameInGroup());
+							} else {
+								MessageTools.sendMsgById(MessageConstant.EMAIL_ERROR,msg.getFromUserName());
+								logger.info(MessageConstant.EMAIL_ERROR);
+								if(DataUtil.commandSwitch.isSaveMessage())
+									saveMsg(msg,Core.getInstance().getUserName(),msg.getFromUserName(),msg.getToUserName(),MessageConstant.EMAIL_ERROR,msg.isGroupMsg(),msg.getMsgFromUserNameInGroup());
+							}
+						}
+					}).start();
+					SleepUtils.sleep(1000);
 				}
 			}
-
-
 		}
 
 		if (content.startsWith(MessageConstant.DOWNLOAD_CMD_PREFIX)) {
@@ -280,7 +235,6 @@ public class MessageServiceImpl implements IMessageService {
 						.getFilesFromDir(CommonUtils.diskPath.getFilePath());
 				File f=fileList.get(n);
 				if(f.length()>1*1024*1024){
-					//MessageTools.sendMsgById(MessageConstant.FILE_HUGE,msg.getFromUserName());
 					return MessageConstant.FILE_HUGE;
 				}
 				if (DataUtil.commandSwitch.isSaveMessage())
@@ -292,6 +246,7 @@ public class MessageServiceImpl implements IMessageService {
 				}else
 					MessageTools.sendFileMsgByUserId(msg.getFromUserName(),
 						f.getAbsolutePath());
+                logger.info("用户【"+CommonUtils.getNickByUserName(msg.getFromUserName())+"】请求获取文件-【"+f.getAbsolutePath()+"】");
 			}
 		}
 		return null;
@@ -318,6 +273,7 @@ public class MessageServiceImpl implements IMessageService {
 				continue;
 			MessageTools.sendMsgById(msg.getContent(), o.getString("UserName"));
 		}
+		logger.info(MessageConstant.MASS_SUCCESS);
 	}
 
 	public static void massSend(String content){
@@ -343,7 +299,6 @@ public class MessageServiceImpl implements IMessageService {
 	 * @return
 	 */
 	public String savePic(BaseMsg baseMsg,Date nowDate) {
-
 		String picPath =getPicFromPath(baseMsg,nowDate);
 		DownloadTools
 				.getDownloadFn(baseMsg, MsgTypeEnum.PIC.getType(), picPath);
@@ -421,4 +376,58 @@ public class MessageServiceImpl implements IMessageService {
 		FileUtil.saveMsg(selfName, toUserName, fromUserName,
 				text, groupMsg,msgFromUserNameInGroup);
 	}
+
+    private String getPicFromPath(BaseMsg baseMsg,Date now){
+        String fileName = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
+                .format(now) + MessageConstant.PIC_SUFFIX; // 这里使用收到图片的时间作为文件名
+        String userName = CommonUtils.select(baseMsg.getFromUserName(),
+                baseMsg.getToUserName(), Core.getInstance().getUserName());
+        String path = CommonUtils.diskPath.getPicPath() + File.separator
+                + CommonUtils.getNickByUserName(userName);
+        File file = new File(path);
+        if (!file.exists() && !file.isDirectory())
+            file.mkdirs();
+        String picPath = path + File.separator + fileName; // 保存图片的路径
+        return picPath;
+    }
+    private String getVoiceFromPath(BaseMsg baseMsg,Date now){
+        String fileName = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
+                .format(now) + MessageConstant.VOICE_SUFFIX; // 这里使用收到图片的时间作为文件名
+        String userName = CommonUtils.select(baseMsg.getFromUserName(),
+                baseMsg.getToUserName(), Core.getInstance().getUserName());
+        String path = CommonUtils.diskPath.getVoicePath() + File.separator
+                + CommonUtils.getNickByUserName(userName);
+        File file = new File(path);
+        if (!file.exists() && !file.isDirectory())
+            file.mkdirs();
+        String voicePath = path + File.separator + fileName; // 保存图片的路径
+        return voicePath;
+    }
+    private String getVideoFromPath(BaseMsg baseMsg,Date now){
+        String fileName = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
+                .format(now) + MessageConstant.VIDEO_SUFFIX; // 这里使用收到图片的时间作为文件名
+        String userName = CommonUtils.select(baseMsg.getFromUserName(),
+                baseMsg.getToUserName(), Core.getInstance().getUserName());
+        String path = CommonUtils.diskPath.getVideoPath() + File.separator
+                + CommonUtils.getNickByUserName(userName);
+        File file = new File(path);
+        if (!file.exists() && !file.isDirectory())
+            file.mkdirs();
+        String videoPath = path + File.separator + fileName; // 保存图片的路径
+        return videoPath;
+    }
+
+    private String getMediaFromPath(BaseMsg baseMsg,Date now){
+        String fileName = new SimpleDateFormat(MessageConstant.DATA_FORMAT)
+                .format(now) + baseMsg.getFileName(); //
+        String userName = CommonUtils.select(baseMsg.getFromUserName(),
+                baseMsg.getToUserName(), Core.getInstance().getUserName());
+        String path = CommonUtils.diskPath.getMediaPath() + File.separator
+                + CommonUtils.getNickByUserName(userName);
+        File file = new File(path);
+        if (!file.exists() && !file.isDirectory())
+            file.mkdirs();
+        String mediaPath = path + File.separator + fileName; // 保存图片的路径
+        return mediaPath;
+    }
 }

@@ -20,20 +20,15 @@ public class CommandUI extends JFrame implements ActionListener{
     private JPanel right=new JPanel();
     private JTextArea jTextArea=new JTextArea(35,35);
     private JScrollPane scrollPane;
-
-
     public CommandUI(JFrame main){
         this.setTitle("命令设置");
         this.setSize(620,630);
-
         left.setBounds(5,0,400,600);
         left.setBorder(BorderFactory.createTitledBorder("助手命令大全"));
         right.setBounds(410,0,200,600);
         right.setBorder(BorderFactory.createTitledBorder("添加命令"));
-
         jTextArea.setLineWrap(true);
         jTextArea.setEditable(false);
-
         scrollPane=new JScrollPane(jTextArea);
         scrollPane.setBorder(null);
         setLeft();
@@ -45,7 +40,6 @@ public class CommandUI extends JFrame implements ActionListener{
         this.setResizable(false);// 设置窗口不可缩放
         this.setLayout(null);
         this.setVisible(true);// 显示窗口
-
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -59,12 +53,6 @@ public class CommandUI extends JFrame implements ActionListener{
     private void setLeft() {
         jTextArea.setText(MessageConstant.CMD_HELP);
     }
-
-    public static void main(String []args){
-        new CommandUI(null);
-    }
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
 

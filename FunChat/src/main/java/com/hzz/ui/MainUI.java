@@ -12,14 +12,14 @@ import java.util.*;
 
 public class MainUI  {
 
-	public static void main(String []args){
-		MainUI UI=new MainUI();
-//		SleepUtils.sleep(5000);
-//		MessageServiceImpl.getCommandSwitch().setAutoChat(true);
-//		UI.updateButtonGroup();
-	}
+//	public static void main(String []args){
+//		MainUI UI=new MainUI();
+////		SleepUtils.sleep(5000);
+////		MessageServiceImpl.getCommandSwitch().setAutoChat(true);
+////		UI.updateButtonGroup();
+//	}
     private JPanel right=new JPanel();
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	private JFrame mainForm = new JFrame("微信趣聊助手-v1.1"); // 主窗体，”
 	private JLabel label1 = new JLabel("开关设置:");
 	private JLabel label2=null;
@@ -66,86 +66,81 @@ public class MainUI  {
 		y+=30;
 	}
 	public void updateButtonGroup(){
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				for(int i=0;i<bgList.size();i++) {
-					bg=bgList.get(i);
-					Enumeration enumeration = bg.getElements();
-					while (enumeration.hasMoreElements()) {
-						JRadioButton jRadioButton = (JRadioButton) enumeration.nextElement();
-						String command=jRadioButton.getActionCommand();
-						if(command.equals("autoChaton")&&DataUtil.commandSwitch.isAutoChat()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("autoChatoff")&&!DataUtil.commandSwitch.isAutoChat()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("saveMsgon")&&DataUtil.commandSwitch.isSaveMessage()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("saveMsgoff")&&!DataUtil.commandSwitch.isSaveMessage()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("savePicon")&&DataUtil.commandSwitch.isSavePic()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("savePicoff")&&!DataUtil.commandSwitch.isSavePic()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("saveVideoon")&&DataUtil.commandSwitch.isSaveVideo()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("saveVideooff")&&!DataUtil.commandSwitch.isSaveVideo()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("saveVoiceon")&&DataUtil.commandSwitch.isSaveVoice()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("saveVoiceoff")&&!DataUtil.commandSwitch.isSaveVoice()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("saveMediaon")&&DataUtil.commandSwitch.isSaveMedia()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("saveMediaoff")&&!DataUtil.commandSwitch.isSaveMedia()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("sendon")&&DataUtil.commandSwitch.isMassSend()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("sendoff")&&!DataUtil.commandSwitch.isMassSend()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("sendGroupon")&&DataUtil.commandSwitch.isMassSendGroup()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("sendGroupoff")&&!DataUtil.commandSwitch.isMassSendGroup()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("downloadFileon")&&DataUtil.commandSwitch.isDownloadFile()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("downloadFileoff")&&!DataUtil.commandSwitch.isDownloadFile()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("uploadFileon")&&DataUtil.commandSwitch.isUploadFile()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("uploadFileoff")&&!DataUtil.commandSwitch.isUploadFile()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("controlPcon")&&DataUtil.commandSwitch.isControlPc()){
-							jRadioButton.setSelected(true);
-						}
-						if(command.equals("controlPcoff")&&!DataUtil.commandSwitch.isControlPc()){
-							jRadioButton.setSelected(true);
-						}
-						jRadioButton.paintImmediately(jRadioButton.getBounds());
-					}
+		for(int i=0;i<bgList.size();i++) {
+			bg=bgList.get(i);
+			Enumeration enumeration = bg.getElements();
+			while (enumeration.hasMoreElements()) {
+				JRadioButton jRadioButton = (JRadioButton) enumeration.nextElement();
+				String command=jRadioButton.getActionCommand();
+				if(command.equals("autoChaton")&&DataUtil.commandSwitch.isAutoChat()){
+					jRadioButton.setSelected(true);
 				}
+				if(command.equals("autoChatoff")&&!DataUtil.commandSwitch.isAutoChat()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("saveMsgon")&&DataUtil.commandSwitch.isSaveMessage()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("saveMsgoff")&&!DataUtil.commandSwitch.isSaveMessage()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("savePicon")&&DataUtil.commandSwitch.isSavePic()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("savePicoff")&&!DataUtil.commandSwitch.isSavePic()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("saveVideoon")&&DataUtil.commandSwitch.isSaveVideo()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("saveVideooff")&&!DataUtil.commandSwitch.isSaveVideo()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("saveVoiceon")&&DataUtil.commandSwitch.isSaveVoice()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("saveVoiceoff")&&!DataUtil.commandSwitch.isSaveVoice()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("saveMediaon")&&DataUtil.commandSwitch.isSaveMedia()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("saveMediaoff")&&!DataUtil.commandSwitch.isSaveMedia()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("sendon")&&DataUtil.commandSwitch.isMassSend()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("sendoff")&&!DataUtil.commandSwitch.isMassSend()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("sendGroupon")&&DataUtil.commandSwitch.isMassSendGroup()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("sendGroupoff")&&!DataUtil.commandSwitch.isMassSendGroup()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("downloadFileon")&&DataUtil.commandSwitch.isDownloadFile()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("downloadFileoff")&&!DataUtil.commandSwitch.isDownloadFile()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("uploadFileon")&&DataUtil.commandSwitch.isUploadFile()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("uploadFileoff")&&!DataUtil.commandSwitch.isUploadFile()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("controlPcon")&&DataUtil.commandSwitch.isControlPc()){
+					jRadioButton.setSelected(true);
+				}
+				if(command.equals("controlPcoff")&&!DataUtil.commandSwitch.isControlPc()){
+					jRadioButton.setSelected(true);
+				}
+				jRadioButton.paintImmediately(jRadioButton.getBounds());
 			}
-		}).start();;
+		}
 	}
 	private void addButtonGroups(){
 		addButtonGroup("自动聊天","autoChat", DataUtil.commandSwitch.isAutoChat());

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import cn.zhouyafeng.itchat4j.beans.BaseMsg;
+import com.hzz.service.MessageConstant;
 
 public class ProcessUtil {
 	/**
@@ -22,8 +23,8 @@ public class ProcessUtil {
 	}
 	public static String control(BaseMsg msg){
 		String text=msg.getText();
-		if(text.startsWith("exec")){
-			String command= text.substring("exec".length());
+		if(text.startsWith(MessageConstant.CONTROL_PREFIX)){
+			String command= text.substring(MessageConstant.CONTROL_PREFIX.length());
 			return  script(command);
 		}
 		return null;
@@ -42,9 +43,4 @@ public class ProcessUtil {
 			return null;
 		}
 	}
-	public static void destroy(Process p){
-		if(p!=null)
-			p.destroy();
-	}
-
 }

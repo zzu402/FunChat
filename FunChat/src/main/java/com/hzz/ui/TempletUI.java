@@ -165,11 +165,6 @@ public class TempletUI extends JFrame implements ActionListener{
         });
     }
 
-    public static void main(String []args){
-        new TempletUI(null);
-    }
-
-
     @Override
     public void actionPerformed(ActionEvent e) {
         String command=e.getActionCommand();

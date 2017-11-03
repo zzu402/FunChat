@@ -6,6 +6,7 @@ import cn.zhouyafeng.itchat4j.core.Core;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.hzz.beans.DiskPath;
+import com.hzz.beans.MailBean;
 import com.hzz.beans.Operation;
 import com.hzz.enums.PrivilegeEnum;
 
@@ -29,6 +30,8 @@ public class CommonUtils {
     }
     public static String getNickByMsgUserNameInGroup(String groupId,String msgUserNameInGroup){
          JSONArray jsonArray=WechatTools.getMemberListByGroupId(groupId);
+         if(jsonArray==null)
+             return null;
          for(int i=0;i<jsonArray.size();i++){
              JSONObject jsonObject=jsonArray.getJSONObject(i);
              if(jsonObject.getString("UserName").equals(msgUserNameInGroup)){
@@ -89,7 +92,7 @@ public class CommonUtils {
         return userName;
     }
     
-    
+
     public static void createUserMkdir(String nickName){
         initDiskPath(nickName);
     	File file=new File(diskPath.getPicPath());
@@ -169,7 +172,6 @@ public class CommonUtils {
 
     public static void getBlackListFromPrivilege(){
         Iterator<String> iterator=DataUtil.privilegeMap.keySet().iterator();
-
         while(iterator.hasNext()) {
             String key = iterator.next();
             String value = DataUtil.privilegeMap.get(key);
@@ -195,8 +197,8 @@ public class CommonUtils {
         if(privilege==null)//如果没有设置默认有权限
             return true;
         if(privilege!=null){
-            if(privilege.contains(op));
-            return true;
+            if(privilege.contains(op))
+              return true;
         }
         return false;
     }

@@ -34,10 +34,8 @@ public class Robot {
 				result = "你好，今天天气真好！";
 			}
 		} catch (Exception e) {
-			logger.info(e.getMessage());
+			logger.info("机器人通讯失败："+e.getMessage());
 		}
 		return result;
 	}
-	
-
 }

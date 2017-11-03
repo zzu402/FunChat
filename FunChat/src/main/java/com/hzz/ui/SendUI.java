@@ -51,7 +51,7 @@ public class SendUI extends JFrame implements ActionListener{
         textArea.setAutoscrolls(true);
         left.add(textArea);
         left.add(submit);
-        left.add(shedule);
+        //left.add(shedule);
     }
 
     public SendUI(JFrame main){
@@ -88,9 +88,9 @@ public class SendUI extends JFrame implements ActionListener{
             }
         });
     }
-    public static void main(String []args){
-        new SendUI(null);
-    }
+//    public static void main(String []args){
+//        new SendUI(null);
+//    }
     @Override
     public void actionPerformed(ActionEvent e) {
         String command=e.getActionCommand();

@@ -12,7 +12,6 @@ import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
 import javax.mail.Authenticator;
 import javax.mail.Message;
-import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
@@ -29,7 +28,7 @@ public class MailUtil {
 
     public static String toChinese(String text) {
         try {
-            text = MimeUtility.encodeText(new String(text.getBytes()));
+            text = MimeUtility.encodeText(new String(text.getBytes(),"utf-8"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,7 +45,6 @@ public class MailUtil {
         String content = mb.getContent();
         String fileName = mb.getFilename();
         Vector<String> file = mb.getFile();
-
         Properties props = new Properties();
         props.put("mail.smtp.host", host); // 设置SMTP的主机
         props.put("mail.smtp.auth", "true"); // 需要经过验证
@@ -81,38 +79,38 @@ public class MailUtil {
                     mbpFile.setFileName(toChinese(fds.getName()));
                     mp.addBodyPart(mbpFile);
                 }
-                logger.info("添加成功");
+                logger.info("邮件添加成功");
             }
 
             msg.setContent(mp);
             msg.setSentDate(new Date());
             Transport.send(msg);
 
-        } catch (MessagingException me) {
-            me.printStackTrace();
+        } catch (Exception e) {
+            logger.error("邮件添加失败:"+e.getMessage());
             return false;
         }
         return true;
     }
 
-    public static void main(String[] args) {
-        MailBean mb = new MailBean();
-        mb.setHost("smtp.163.com");
-        mb.setUsername("18903811375@163.com");
-        mb.setPassword("fj916693");
-        mb.setFrom(MailUtil.toChinese("趣聊助手")+"<18903811375@163.com>");
-        mb.setTo("415354918@qq.com");
-        mb.setContent("本邮件中包含1个附件，请检查！");
-        mb.attachFile("D:\\FunChatData\\file\\112.avi");
-        MailUtil sm = new MailUtil();
-        mb.setSubject(sm.toChinese("测试_JavaMail"));
-        System.out.println("正在发送邮件...");
-        if (sm.sendMail(mb)) {
-            System.out.println("发送成功!");
-        } else {
-            System.out.println("发送失败!");
-        }
-    }
+//    public static void main(String[] args) {
+//        MailBean mb = new MailBean();
+//        mb.setHost("smtp.163.com");
+//        mb.setUsername("******@163.com");
+//        mb.setPassword("******");
+//        mb.setFrom(MailUtil.toChinese("趣聊助手")+"<****@163.com>");
+//        mb.setTo("*****@qq.com");
+//        mb.setContent("本邮件中包含1个附件，请检查！");
+//        mb.attachFile("D:\\FunChatData\\file\\2017-11-02-20-28-10.jpg");
+//        MailUtil sm = new MailUtil();
+//        mb.setSubject(sm.toChinese("测试_JavaMail"));
+//        System.out.println("正在发送邮件...");
+//        if (sm.sendMail(mb)) {
+//            System.out.println("发送成功!");
+//        } else {
+//            System.out.println("发送失败!");
+//        }
+//    }
 
 
 }

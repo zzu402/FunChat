@@ -33,8 +33,6 @@ public class PrivilegeUI extends JFrame implements ActionListener,ItemListener{
     private JScrollPane scrollPane2;
     private String nick;
 
-
-
     private void setNickName(){
 
         label1.setBounds(10,20,50,30);
@@ -143,9 +141,9 @@ public class PrivilegeUI extends JFrame implements ActionListener,ItemListener{
         privileges.repaint();
     }
 
-    public static void main(String []args){
-        new PrivilegeUI(null);
-    }
+//    public static void main(String []args){
+//        new PrivilegeUI(null);
+//    }
 
 
     @Override

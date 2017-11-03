@@ -1,5 +1,8 @@
 package com.hzz.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +10,7 @@ import java.util.Map;
 import java.util.Properties;
 
 public class PropertiesUtils {
-
+    private static Logger logger = LoggerFactory.getLogger(PropertiesUtils.class);
     public static String getPropertiesValue(String path,String key,String defaultValue){
         Properties ppts = new Properties();
         try {
@@ -40,7 +43,6 @@ public class PropertiesUtils {
     public static String getPropertiesValue(Class clazz,String path,String key,String defalutValue){
         Properties properties=new Properties();
         try {
-
             properties.load(new InputStreamReader(clazz.getResourceAsStream(path),"utf-8"));
             return properties.getProperty(key);
         } catch (Exception e) {
@@ -64,7 +66,7 @@ public class PropertiesUtils {
             // 将此 Properties 表中的属性列表（键和元素对）写入输出流
             properties.store(fos, "Update '" + keyname + "' value");
         } catch (Exception e) {
-            System.err.println("属性文件更新错误");
+            logger.error("属性更新失败:"+e.getMessage());
         }
     }
 

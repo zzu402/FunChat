@@ -13,8 +13,11 @@ import com.hzz.service.implement.MessageServiceImpl;
 import com.hzz.enums.PrivilegeEnum;
 import com.hzz.util.CommonUtils;
 import com.hzz.util.DataUtil;
+import com.hzz.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
 import java.util.Date;
 /**
  * @Author: huangzz
@@ -84,6 +87,8 @@ public class MessageHandler implements IMsgHandlerFace {
 		result=autoChat(result,text, baseMsg,selfName,fromUserName,nickName);
 		return result;
 	}
+
+
 	@Override
 	public String picMsgHandle(BaseMsg baseMsg) {
 		Date nowDate=new Date();
@@ -110,7 +115,16 @@ public class MessageHandler implements IMsgHandlerFace {
             if (result != null) {
                 if (DataUtil.commandSwitch.isSaveMessage())
                     messageService.saveMsg(baseMsg, selfName, fromUserName, baseMsg.getToUserName(), result, baseMsg.isGroupMsg(), baseMsg.getMsgFromUserNameInGroup());
-                return result;
+				File f= FileUtil.filePathPreProc(result);
+				if(f!=null){
+					if(f.getName().contains(MessageConstant.PIC_SUFFIX)||f.getName().contains("")){
+						MessageTools.sendPicMsgByUserId(baseMsg.getFromUserName(),f.getAbsolutePath());
+					}else
+						MessageTools.sendFileMsgByUserId(baseMsg.getFromUserName(),
+								f.getAbsolutePath());
+					logger.info("根据模板消息发送给用【"+CommonUtils.getNickByUserName(baseMsg.getFromUserName())+"】文件-【"+f.getAbsolutePath()+"】");
+				} else
+					return result;
             }
 		}
         if (DataUtil.commandSwitch.isRobotChat()&&(!CommonUtils.isBlackList(nickName)||CommonUtils.hasPrivilege(nickName,PrivilegeEnum.AUTOCHAT.getValue()))) {

@@ -79,6 +79,16 @@ public class FileUtil {
         return fileList;
 	}
 
+	public  static File filePathPreProc(String pathstr){
+		if(!pathstr.contains("path:"))
+			return  null;
+		String p=pathstr.substring(pathstr.indexOf("path:")+"path:".length());
+		File path=new File(p);
+		if(!path.exists())
+			return  null;
+		return path;
+	}
+
 	public static void writeByFileReader(String path, String msg) {
 		BufferedWriter out = null;
 		try {

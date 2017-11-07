@@ -20,6 +20,7 @@ public class CommandUI extends JFrame implements ActionListener{
     private JPanel right=new JPanel();
     private JTextArea jTextArea=new JTextArea(35,35);
     private JScrollPane scrollPane;
+    private JButton button=new JButton("设置邮箱");
     public CommandUI(JFrame main){
         this.setTitle("命令设置");
         this.setSize(620,630);
@@ -33,6 +34,10 @@ public class CommandUI extends JFrame implements ActionListener{
         scrollPane.setBorder(null);
         setLeft();
         left.add(scrollPane);
+        button.setContentAreaFilled(false);
+        button.setActionCommand("mail");
+        button.addActionListener(this);
+        right.add(button);
         this.add(left);
         this.add(right);
         this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);// 设置主窗体关闭按钮样式
@@ -55,7 +60,8 @@ public class CommandUI extends JFrame implements ActionListener{
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-
-
+        if(e.getActionCommand().equals("mail")){
+            new MailDialog().setVisible(true);
+        }
     }
 }

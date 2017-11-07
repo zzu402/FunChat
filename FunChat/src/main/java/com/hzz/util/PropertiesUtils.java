@@ -14,6 +14,9 @@ public class PropertiesUtils {
     public static String getPropertiesValue(String path,String key,String defaultValue){
         Properties ppts = new Properties();
         try {
+            File file = new File(path);
+            if (!file.exists())
+                file.createNewFile();
             ppts.load(new InputStreamReader(new FileInputStream(path),"utf-8"));
             return  ppts.getProperty(key);
         } catch (Exception e) {

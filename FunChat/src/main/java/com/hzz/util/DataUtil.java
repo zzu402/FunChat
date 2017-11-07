@@ -27,20 +27,23 @@ public class DataUtil {
         privilegeMap=PropertiesUtils.getPropertiesValues(CommonUtils.diskPath.getPropertiesPath()
                 + File.separator + "privilege.properties");
         CommonUtils.getBlackListFromPrivilege();
-        mailBean.setContent(PropertiesUtils.getPropertiesValue(DataUtil.class,"/mail_config.properties","mailContent",""));
-        mailBean.setSubject(PropertiesUtils.getPropertiesValue(DataUtil.class,"/mail_config.properties","subject",""));
-        mailBean.setFrom(PropertiesUtils.getPropertiesValue(DataUtil.class,"/mail_config.properties","from",""));
-        mailBean.setPassword(PropertiesUtils.getPropertiesValue(DataUtil.class,"/mail_config.properties","password",""));
-        mailBean.setUsername(PropertiesUtils.getPropertiesValue(DataUtil.class,"/mail_config.properties","userName",""));
-        mailBean.setHost(PropertiesUtils.getPropertiesValue(DataUtil.class,"/mail_config.properties","host",""));
+        mailBean.setContent(PropertiesUtils.getPropertiesValue(CommonUtils.diskPath.getPropertiesPath()
+                + File.separator +"mail_config.properties","mailContent",""));
+        mailBean.setSubject(PropertiesUtils.getPropertiesValue(CommonUtils.diskPath.getPropertiesPath()
+                + File.separator +"mail_config.properties","subject",""));
+        mailBean.setFrom(PropertiesUtils.getPropertiesValue(CommonUtils.diskPath.getPropertiesPath()
+                + File.separator +"mail_config.properties","from",""));
+        mailBean.setPassword(PropertiesUtils.getPropertiesValue(CommonUtils.diskPath.getPropertiesPath()
+                + File.separator +"mail_config.properties","password",""));
+        mailBean.setUsername(PropertiesUtils.getPropertiesValue(CommonUtils.diskPath.getPropertiesPath()
+                + File.separator +"mail_config.properties","userName",""));
+        mailBean.setHost(PropertiesUtils.getPropertiesValue(CommonUtils.diskPath.getPropertiesPath()
+                + File.separator +"mail_config.properties","host",""));
     }
 
     public static String getTempletValue(String text) {
-        boolean sencodLevel=templetMap.containsKey("**");
-        if(sencodLevel)
-            return  templetMap.get("**");
         boolean isAll=templetMap.containsKey("*");
-        if(isAll)
+        if(isAll&&!templetMap.get("*").equals("*"))
             return  templetMap.get("*");
         for (String key : templetMap.keySet()) {
             if (StringUtils.SimilarDegree(key, text) >= 0.65) {

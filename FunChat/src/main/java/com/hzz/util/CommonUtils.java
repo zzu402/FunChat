@@ -135,15 +135,15 @@ public class CommonUtils {
     private static  void initDiskPath(){
         String programUrl= System.getProperty("user.dir");
         String rootPath=String.format("%s//%s",programUrl,"FunChatData");
-        diskPath.setPicPath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","picPath",rootPath+"//picPath"));
-        diskPath.setVideoPath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","videoPath",rootPath+"//videoPath"));
-        diskPath.setVoicePath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","voicePath",rootPath+"//voicePath"));
-        diskPath.setMediaPath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","mediaPath",rootPath+"//mediaPath"));
-        diskPath.setQrPath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","qrPath",rootPath+"//qrPath"));
-        diskPath.setMessagePath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","messagePath",rootPath+"//messagePath"));
-        diskPath.setFilePath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","filePath",rootPath+"//filePath"));
-        diskPath.setPropertiesPath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","propertiesPath",rootPath+"//propertiesPath"));
-        diskPath.setScriptPath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","scriptPath",rootPath+"//scriptPath"));
+        diskPath.setPicPath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","picPath",rootPath+"//pic"));
+        diskPath.setVideoPath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","videoPath",rootPath+"//video"));
+        diskPath.setVoicePath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","voicePath",rootPath+"//voice"));
+        diskPath.setMediaPath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","mediaPath",rootPath+"//media"));
+        diskPath.setQrPath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","qrPath",rootPath+"//qr"));
+        diskPath.setMessagePath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","messagePath",rootPath+"//message"));
+        diskPath.setFilePath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","filePath",rootPath+"//file"));
+        diskPath.setPropertiesPath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","propertiesPath",rootPath+"//properties"));
+        diskPath.setScriptPath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","scriptPath",rootPath+"//script"));
     }
 
     public static void getBlackListFromPrivilege(){

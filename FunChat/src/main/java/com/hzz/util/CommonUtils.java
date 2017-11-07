@@ -133,8 +133,8 @@ public class CommonUtils {
      * 从配置文件中初始化路径
      */
     private static  void initDiskPath(){
-        String programUrl= System.getProperty("user.dir");
-        String rootPath=String.format("%s//%s",programUrl,"FunChatData");
+        //String programUrl= System.getProperty("user.dir");
+        String rootPath=String.format("%s//%s","..","FunChatData");
         diskPath.setPicPath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","picPath",rootPath+"//pic"));
         diskPath.setVideoPath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","videoPath",rootPath+"//video"));
         diskPath.setVoicePath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","voicePath",rootPath+"//voice"));

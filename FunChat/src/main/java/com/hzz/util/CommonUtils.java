@@ -21,7 +21,6 @@ import java.util.*;
 public class CommonUtils {
 
     public static DiskPath diskPath =new DiskPath() ;
-    private static String rootPath="C://FunChatData";
     public static Map<String,Operation> operationList=new HashMap<>();
 
     public static String select(String path1,String path2,String self) {
@@ -95,34 +94,6 @@ public class CommonUtils {
 
         return userName;
     }
-    
-
-    public static void createUserMkdir(String nickName){
-        initDiskPath(nickName);
-    	File file=new File(diskPath.getPicPath());
-        if(!file .exists()  && !file .isDirectory())
-            file.mkdirs();
-        file=new File(diskPath.getVideoPath());
-        if(!file .exists()  && !file .isDirectory())
-            file.mkdirs();
-        file=new File(diskPath.getVoicePath());
-        if(!file .exists()  && !file .isDirectory())
-            file.mkdirs();
-        file=new File(diskPath.getMediaPath());
-        if(!file .exists()  && !file .isDirectory())
-            file.mkdirs();
-        file=new File(diskPath.getMessagePath());
-        if(!file .exists()  && !file .isDirectory())
-            file.mkdirs();
-    }
-
-    private static void initDiskPath(String nickName) {
-        diskPath.setMessagePath(diskPath.getMessagePath()+File.separator+nickName);
-        diskPath.setMediaPath(diskPath.getMediaPath()+File.separator+nickName);
-        diskPath.setPicPath(diskPath.getPicPath()+File.separator+nickName);
-        diskPath.setVideoPath(diskPath.getVideoPath()+File.separator+nickName);
-        diskPath.setVoicePath(diskPath.getVoicePath()+File.separator+nickName);
-    }
 
     /*
      * 创建原始的文件夹
@@ -158,11 +129,12 @@ public class CommonUtils {
             file.mkdirs();
 
     }
-
     /**
      * 从配置文件中初始化路径
      */
     private static  void initDiskPath(){
+        String programUrl= System.getProperty("user.dir");
+        String rootPath=String.format("%s//%s",programUrl,"FunChatData");
         diskPath.setPicPath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","picPath",rootPath+"//picPath"));
         diskPath.setVideoPath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","videoPath",rootPath+"//videoPath"));
         diskPath.setVoicePath(PropertiesUtils.getPropertiesValue(CommonUtils.class,"/disk_path.properties","voicePath",rootPath+"//voicePath"));

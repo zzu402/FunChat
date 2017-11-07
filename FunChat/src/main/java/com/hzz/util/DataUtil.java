@@ -36,6 +36,12 @@ public class DataUtil {
     }
 
     public static String getTempletValue(String text) {
+        boolean sencodLevel=templetMap.containsKey("**");
+        if(sencodLevel)
+            return  templetMap.get("**");
+        boolean isAll=templetMap.containsKey("*");
+        if(isAll)
+            return  templetMap.get("*");
         for (String key : templetMap.keySet()) {
             if (StringUtils.SimilarDegree(key, text) >= 0.65) {
                 return templetMap.get(key);

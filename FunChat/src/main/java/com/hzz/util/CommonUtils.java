@@ -170,7 +170,7 @@ public class CommonUtils {
         if(DataUtil.privilegeMap.size()<=0||op==null||nickName.equals(Core.getInstance().getNickName()))
             return true;
         String privilege=DataUtil.privilegeMap.get(nickName);
-        if(privilege==null)//如果没有设置默认有权限
+        if(privilege==null)//如果没有设置权限默认有权限
             return true;
         if(privilege!=null){
             if(privilege.contains(op))

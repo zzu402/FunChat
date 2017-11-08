@@ -94,9 +94,6 @@ public class SendUI extends JFrame implements ActionListener{
             }
         });
     }
-    public static void main(String []args){
-           new SendUI(null);
-    }
     @Override
     public void actionPerformed(ActionEvent e) {
         String command=e.getActionCommand();
